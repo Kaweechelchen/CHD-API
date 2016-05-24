@@ -32,61 +32,67 @@
         $rows[$key] = trim($row);
     }
 
-    //print_r($rows);
+    $rawPetitions = [];
 
-    $petitions = [];
-
-    $petition = [];
+    $rawPetition = [];
 
     $count = 1;
 
     foreach ($rows as $key => $row) {
         switch ($count) {
             case 1:
-                $petition['meta'] = $row;
+                $rawPetition['meta'] = $row;
                 break;
             case 2:
-                $petition['data'] = $row;
+                $rawPetition['info'] = $row;
                 break;
             case 3:
-                $petitions[] = $petition;
-                $petition    = [];
-                $count       = 0;
+                $rawPetitions[] = $rawPetition;
+                $rawPetition    = [];
+                $count          = 0;
                 break;
         }
 
         ++$count;
     }
 
-    print_r($petitions);
+    $petitions = [];
 
-    die();
-
-    /*
-
-    $petitionsPattern = '/<tr>(.*?)<\/tr>(?: )<tr>(?: )<td>&nbsp;<\/td>(?: )<\/tr>(?: )/';
-
-    if (!preg_match_all($petitionsPattern, $table, $petitions, PREG_PATTERN_ORDER)) {
-        echo 'something is wrong2...';
-        exit;
+    foreach ($rawPetitions as $key => $rawPetition) {
+        $petitions[] = array_merge(
+            handleMeta($rawPetition['meta']),
+            handleInfo($rawPetition['info'])
+        );
     }
 
-    $petitions = $petitions[1];
+    print_r($petitions);
 
-    foreach ($petitions as $key => $petition) {
-        $petition = trim($petition);
+    function handleInfo($info)
+    {
+        $infoPattern = '/<td[^>]*> <a href="(?P<link>[^"]*).*Pétition publique (?P<number>\d+).*électroniques: (?P<online_signatures>\d+).*<\/td>/';
 
-        $rows = explode('</tr> <tr>', $petition);
-
-        foreach ($rows as $rowKey => $row) {
-            $rows[$rowKey] = trim($row);
+        if (!preg_match($infoPattern, $info, $infoMatches)) {
+            throw new Exception('metadata not matching');
         }
 
-        $petitions[$key] = $rows;
+        return [
+            'link'              => $infoMatches['link'],
+            'number'            => $infoMatches['number'],
+            'online_signatures' => $infoMatches['online_signatures'],
+        ];
     }
 
-    // <td[^>]*>(?:[^<])<b>Dépôt: (?P<depot>[^<]*)(.*)<\/td>
+    function handleMeta($meta)
+    {
+        $metaPattern = '/<td[^>]*> <b>Dépôt: (?P<submission>[^<]*)(?:.*)Auteur: (?P<author>[^<]*)(?:.*)signature: (?P<signature_end>[^<]*).*<\/td>/';
 
-    print_r($petitions);
+        if (!preg_match($metaPattern, $meta, $metaMatches)) {
+            throw new Exception('metadata not matching');
+        }
 
-    */
+        return [
+            'authors'       => explode(', ', $metaMatches['author']),
+            'submission'    => strtotime($metaMatches['submission']),
+            'signature_end' => strtotime($metaMatches['signature_end']),
+        ];
+    }
