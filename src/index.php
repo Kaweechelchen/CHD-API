@@ -2,11 +2,15 @@
 
     // https://regex101.com/r/lA2tT6/1
 
-    $data = file_get_contents('http://www.chd.lu/wps/portal/public/SignerPetition');
+    //$data = file_get_contents('http://www.chd.lu/wps/portal/public/SignerPetition');
+
+    $data = file_get_contents('../source/petitions.html');
+
+    $data = file_get_contents('../source/703.html');
 
     $data = trim(preg_replace('/\s+/', ' ', $data));
 
-    $startString = '<!-- BEGIN petitionElementsList -->';
+    /*$startString = '<!-- BEGIN petitionElementsList -->';
 
     $start = strpos($data, $startString) + strlen($startString);
     $stop  = strpos($data, '<!-- END petitionElementsList -->');
@@ -95,4 +99,73 @@
             'submission'    => strtotime($metaMatches['submission']),
             'signature_end' => strtotime($metaMatches['signature_end']),
         ];
+    }*/
+
+    $startString = '<div id="PRINT_EPETITION_DETAIL">';
+
+    $start = strpos($data, $startString) + strlen($startString);
+    $stop  = strpos($data, '<div class="contentType3Items">');
+
+    $petitionString = substr(
+        $data,
+        $start,
+        $stop - $start
+    );
+
+    $petitionString = trim($petitionString);
+
+    $metaPattern = '/.*Auteur: <\/span> <span class="property_value">(?P<author>[^<]*).*électroniques: <\/span> <span class="property_value">(?P<signatures_electronic>\d+).*Dépôt: <\/span> <span class="property_value">(?P<submission>[^<]*).*Signatures papier: <\/span> <span class="property_value">(?P<signatures_paper>[^<]*).*<span class="property_value">(?P<state>[^<]*).*<span class="subject_header">(?P<name>[^<]*)<\/span> - (?P<description>[^<]*).*<tbody>(?P<events_table>.*)<\/tbody>/';
+
+    if (!preg_match($metaPattern, $petitionString, $metaMatches)) {
+        throw new Exception('metadata not matching');
+    }
+
+    $events = explode('</tr> <tr', $metaMatches['events_table']);
+
+    $eventPattern = '/<td[^>]*>(?P<date>.*?)<\/td> <td[^>]*>(?P<event>.*?)<\/td> <td[^>]*>(?P<link>.*?)<\/td>/';
+
+    foreach ($events as $key => $event) {
+        if ($key == 0) {
+            continue;
+        }
+
+        if (!preg_match($eventPattern, $event, $eventMatches)) {
+            throw new Exception('eventdata not matching');
+        }
+
+        foreach ($eventMatches as $key => $eventMatch) {
+            if ($key == 0) {
+                continue;
+            }
+
+            $eventMatches[$key] = br2nl($eventMatch);
+        }
+
+        $linkPattern = '/openWindow\(\'(?P<link>[^\']*)\'.*">(?P<name>[^<]*)/';
+
+        if (empty(trim($eventMatches['link']))) {
+            continue;
+        }
+
+        if (!preg_match($linkPattern, $eventMatches['link'], $linkMatches)) {
+            throw new Exception('linkdata not matching');
+        }
+
+        $event = [
+            'date'  => strtotime($eventMatches['date']),
+            'event' => br2nl($eventMatches['event']),
+            'links' => [
+                [
+                    'name' => $linkMatches['name'],
+                    'link' => $linkMatches['link'],
+                ],
+            ],
+        ];
+
+        print_r($event);
+    }
+
+    function br2nl($string)
+    {
+        return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
     }
