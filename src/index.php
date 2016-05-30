@@ -143,23 +143,19 @@
 
         $linkPattern = '/openWindow\(\'(?P<link>[^\']*)\'.*">(?P<name>[^<]*)/';
 
-        if (empty(trim($eventMatches['link']))) {
-            continue;
-        }
-
-        if (!preg_match($linkPattern, $eventMatches['link'], $linkMatches)) {
-            throw new Exception('linkdata not matching');
+        if (preg_match($linkPattern, $eventMatches['link'], $linkMatches)) {
+            $link = [
+                'name' => $linkMatches['name'],
+                'link' => $linkMatches['link'],
+            ];
+        } else {
+            $link = [];
         }
 
         $event = [
             'date'  => strtotime($eventMatches['date']),
             'event' => br2nl($eventMatches['event']),
-            'links' => [
-                [
-                    'name' => $linkMatches['name'],
-                    'link' => $linkMatches['link'],
-                ],
-            ],
+            'links' => $link,
         ];
 
         print_r($event);
