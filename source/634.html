@@ -1599,14 +1599,76 @@
 
 
 
-<!-- BEGIN PetitionRole -->
 
+<!-- BEGIN REGION -->
 <link rel="stylesheet" href="/wps/PA_Petition_Portlet/css/commonPublic.css" type="text/css">
+<link rel="stylesheet" href="/wps/PA_Petition_Portlet/css/debatDetailsPublic.css" type="text/css">
+<script type="text/javascript" charset="utf-8" src="http://visilux.chd.lu/ArchivePage/static/js/crpglPopUp.js"></script>
 
-<link rel="stylesheet" href="/wps/PA_Petition_Portlet/css/background.css" type="text/css">
-<script src="/wps/PA_Petition_Portlet/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript">
-    $.noConflict();
+    function printList(tagid)
+    {
+        var doc = document.getElementById(tagid).innerHTML;
+        var pos = 1;
+        while (pos !== 0) {
+            doc = doc.replace('<a', '<c');
+            pos = doc.indexOf('<a', pos) + 1;
+        }
+
+        var pos = 1;
+        while (pos !== 0) {
+            doc = doc.replace('<A', '<c');
+            pos = doc.indexOf('<A', pos) + 1;
+        }
+
+        var NewWindow = window.open('', 'MyWindow');
+        var print = '\<script\> window.print();\</script\>';
+        var debatDetailsStyle =
+                'table.table td {padding:5px;}' +
+                '.table {width:100%;background-color:black;}' +
+                '.header {background-color:#EFC663;width:100%;padding:5px;margin-top:5px;clear:both;}' +
+                '.summary {background-color:#D9D9D9;width:100%;padding:5px;margin-top:5px;}' +
+                '.property {background-color:#D9D9D9;width:100%;padding:5px;margin-top:5px;}' +
+                '.panel_div {margin-top:5px;}' +
+                '.panel {width:100%;padding:5px;}' +
+                '.footer {width:100%;background-color:#D9D9D9;}' +
+                '.table_column_title {background-color:#EBEBEB;font-weight:bold;padding:5px;}' +
+                '.table_column_content {background-color:#F7F7F7;padding:5px;}' +
+                '.table_debat {width:100%;}' +
+                '.panel_title {text-decoration:underline;font-weight:bold;}' +
+                '.subject_header {font-weight:bold;}' +
+                '.document_link {font-weight:bold;padding-right:5;}' +
+                '.property_name {font-weight:bold;}' +
+                '.button_goback {width:16px;height:16px;}' +
+                '.previous_page {float: left;margin-bottom:5px;}' +
+                '.search_page {float: left;margin-left:10px;}' +
+                '.compile_page {float: left;margin-left:10px;}' +
+                '.print_page {float: left;margin-left:10px;}' +
+                '.header_option {float:right;}';
+        NewWindow.document.write('\<html\>\<body\>\<style\>');
+        NewWindow.document.write(debatDetailsStyle);
+        NewWindow.document.write('\</style\>');
+        NewWindow.document.write(doc);
+        NewWindow.document.write('\</body\>\</html\>');
+        NewWindow.document.write(print);
+        NewWindow.document.close();
+    }
+
+    function viewVideo(fichierRef, sequenceRef) {
+        var param = "resizable=yes,scrollbars=yes,menubar=no,toolbar=yes,status=no,width=1065,height=900px,screenX=10px,screenY=10px,top=10px,left=10px";
+//	showNewWindow('/wps/portal/public/ArchivesVideos?refF=' + fichierRef + '&refS=' + sequenceRef,param);
+        crpglPopUp.newPopUp(fichierRef, sequenceRef);
+    }
+
+    function openWindow(mypage, myname, w, h, scroll) {
+        var winl = (screen.width - w) / 2;
+        var wint = (screen.height - h) / 2;
+        winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl + ',scrollbars=' + scroll + ',resizable=yes';
+        win = window.open(mypage, myname, winprops);
+        if (parseInt(navigator.appVersion) >= 4) {
+            win.window.focus();
+        }
+    }
 </script>
 
 
@@ -1619,673 +1681,230 @@
 
 <!-- Rich! Text -->
 
-<p><!--[if gte mso 9]><xml>
- <o:DocumentProperties>
-  <o:Keywords>www.Neevia.com, Document Converter Pro, Convert to PDF or Image in batches!</o:Keywords>
-  <o:Version>15.00</o:Version>
- </o:DocumentProperties>
- <o:OfficeDocumentSettings>
-  <o:TargetScreenSize>800x600</o:TargetScreenSize>
- </o:OfficeDocumentSettings>
-</xml><![endif]-->
-
-<p class="MsoNormal"><span lang="FR-LU">La rubrique "Rôle des pétitions"
-vous permet de consulter les pétitions en cours de procédure ou les pétitions
-déjà évacuées. Les pétitions y sont organisées en fonction de leur type (p. ex.
-Pétitions publiques, Pétitions ordinaires). </span></p>
-
-<p class="MsoNormal"><span lang="FR-LU">Pour chaque type de pétition il est
-possible d'appliquer des filtres de recherche. Vous pouvez ainsi demander à ne
-voir, par exemple, que les "Pétitions publiques – En cours" ou les
-"Pétitions ordinaires – Evacuées", etc.</span></p>
-
-<p class="MsoNormal"><span lang="FR-LU">Pour avoir plus d'informations sur une
-pétition précise, veuillez cliquer sur le numéro de la pétition concernée.</span></p></p>
+<p></p>
 
 <br><br>
 
 
 
 
-<div id='petitionList'>
+
     
-        
+
+
+
+
     
+
+
+
     
-    <!-- BEGIN PetitionRoleListContent -->
-    <form id="petitionSearchForm" action="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=ePetition=listPetitionRole/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" method="GET" onsubmit="return checkPageNumber();">
-        <div class="backgr-filtre">
-            <table class="wide-table-generic-filtre" border="0" cellpadding="3" cellspacing="0">
-                <tbody>
-                    <tr>
-                        <td align="right" nowrap="nowrap" class="style1">Type de pétition</td>
-                        <td align="left">
-                            <select id="eP_FiltreType" name="type" style="width:200px;" class="select-filter" onchange="submitNewSearch()">
-                                <option value="TOUTES" selected="selected">Toutes les p&eacute;titions</option><option value="PUBLIQUES">P&eacute;tition publique</option><option value="ORDINAIRE">P&eacute;tition ordinaire</option>
-                            </select>
+
+
+<table style="margin-bottom: 9px;" border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tbody>
+        <tr height="100%">
+            <td valign="top" width="100%">
+                <br />
+                <table class="header_table_option" width="100%">
+                    <tbody>
+                    <br/><br/><br/><br/>
+                    <tr >
+                        <td width="100px;">
+                            <a href="javascript:history.back()"><img src="/wps/PA_Petition_Portlet/images/undo.png" height="16" align="absmiddle" border="0" hspace="3" vspace="3" width="16"></a><a href="javascript:history.back()">Retour</a>
                         </td>
-                        <td align="right">
-                            <a class="sitepublic" href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=ePetition=PetitionSearchForm/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5">
-                                <img src="/wps/PA_Petition_Portlet/images/find.png" alt="Rechercher" height="16" align="middle" border="0" hspace="3" width="16">Rechercher
-                            </a>				
+                        <td width="20%">
+                            &nbsp;
+                        </td>
+                        <td class="print_td">
+                            
+                            <a href="https://www.facebook.com/dialog/feed?app_id=1465506583740229&name=Pétition publique n°610&redirect_uri=http%3A%2F%2Fwww.chd.lu%2Fwps%2Fportal%2Fpublic%2FPetitionDetail%3Faction%3DdoPetitionDetail%26id%3D634&link=http%3A%2F%2Fwww.chd.lu%2Fwps%2Fportal%2Fpublic%2FPetitionDetail%3Faction%3DdoPetitionDetail%26id%3D634&description=Pour+une+v%C3%A9ritable+billetterie+nationale%0D%0A&picture=https%3A%2F%2Fc2.staticflickr.com%2F8%2F7721%2F16619908504_8e2418cee4_b.jpg" target="_blank"> <img src="/wps/PA_Petition_Portlet/images/facebook.png" title="Partager sur Facebook" height="20" align="absmiddle" border="0" hspace="3" vspace="3" width="20" /></a>
+                        </td>
+                        <td class="print_td">
+                            <a style="text-decoration: none" href=""> <img src="/wps/PA_Petition_Portlet/images/printer.png" height="16" align="absmiddle" border="0" hspace="3" vspace="3" width="16"></a>
+                            <a href="javascript:printList('PRINT_EPETITION_DETAIL');"> Imprimer la page de détail</a>
+                        </td>
+                        <td class="compile_td">
+                            <a style="text-decoration: none" href=""> <img src="/wps/PA_Petition_Portlet/images/import1.png" height="16" align="absmiddle" border="0" hspace="3" vspace="3" width="16"></a>
+                            <a href="#" onClick="openWindow('/wps/portal/public/!ut/p/b1/jZBNboMwGETPkhP4swk2XhoSjAukEDc_sEEIWSkt4Cg0UcnpS7qvmtmN9N4sBpWowMQBhrlDHHRE5VDf2lP91dqh7h69pBWBcL8PiRS-pC4IqWnMMgVSsBkoZgArV0QKSAQhpaCyaMVpvHRiiZ_ziefprRTpmvOdDwoCrNe5T0CR53z4IwL-87UZ0CayvUGHeYlV7hvdiVgwLLeMgPAYSQXJsdQuOlzMaK-XxqBtVp9MYPtz2_0etbLj2JoLypu6eTeJuZnuQSCNjrCs9Md0VknzOU7NPWs9nra6yhLv_Jqk9nbfXV-SaWmn8TvZcJ1tVimBhuN9mK9F6geTtQvUl10YeqYIxGLxAxmaXR0!/', '', 800, 600, 'yes');
+                                    return false;"> Compiler le dossier complet</a>
+                        </td>
+                        <td class="search_td">
+                            <a style="text-decoration: none" href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=ePetition=PetitionSearchForm/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" > <img src="/wps/PA_Petition_Portlet/images/find.png" height="16" align="absmiddle" border="0" hspace="3" vspace="3" width="16"></a>
+                            <a href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=ePetition=PetitionSearchForm/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5"> Rechercher</a>
                         </td>
                     </tr>
-                    <tr>
-                        <td align="right" nowrap="nowrap" class="style1">État</td>
-                        <td align="left">
-                            <select id="eP_FiltreEtat" name="etat" style="width:200px;" class="select-filter" onchange="submitNewSearch()">
-                                <option value="TOUS" selected="selected">Tous</option><option value="EN_COURS">En cours</option><option value="EVACUEE">&Eacute;vacu&eacute;e</option>
-                            </select>
-                        </td>
-                        <td align="right"></td>
-                    </tr>
-                    <tr>
-                        <td align="right" nowrap="nowrap" class="style1">Sous-état</td>
-                        <td align="left">						            	                                                        
-                            <select id="eP_FiltreSousEtat" name="sousEtat" style="width:200px;" class="select-filter" onchange="submitNewSearch()">
-                                <option value="TOUS" selected="selected">Tous</option>
-                            </select>
-                        </td>
-                        <td align="right"></td>
-                    </tr>
-                </tbody>
-            </table>
+    </tbody>
+</table>
+
+<div id="PRINT_EPETITION_DETAIL">
+
+
+
+    <div class="header">
+        <div class="global_header">
+            <div style="padding-right: 150px; padding-left: 130px;">
+                <div style="text-align: center; float: left; position: relative; width:100%">
+                    <span class="property_name">Auteur: </span>
+                    <span class="property_value">raman guido</span>
+                    <br/>
+                    
+                    
+                    
+                        
+                            
+                            
+                                <span class="property_name">Signatures électroniques: </span>
+                            
+                        
+                        <span class="property_value">14</span>
+                        <br/>
+                    
+                </div>
+                <div style="width: 250px; right: 130px; margin-left: -100%; float: left; position: relative;" >
+                    <span class="property_name">Dépôt: </span>
+                    <span class="property_value">14-02-2016</span>
+                    
+                        
+                              <div style="padding:0;">
+                               	  <span class="property_name">Signatures papier: </span>
+                                  <span class="property_value">0</span>
+                              </div>
+                        
+                    
+                </div>
+                <div style="width: 150px; text-align: right; margin-right: -150px; float: left; position: relative;" >
+                    <span class="property_value">Seuil non atteint</span>
+                    
+                        
+                              <div style="padding:0;">
+                                  <span class="property_name">Total des signatures: </span>
+                                  <span class="property_value">14</span>
+                              </div>
+                        
+                    
+                </div>
+                <br style="clear:both;"/>
+            </div>
         </div>
-        <br />
-        
+    </div>
+
+    <div class="property" style="background:#EBEBEB;">
+        <span class="subject_header">Pétition publique n°610</span> - Pour une véritable billetterie nationale
+ <br/>
+    </div>
 
 
-
-
-
-
-<!-- BEGIN pagination -->
-<style>    
-    .eP_input_num_page {     
-        text-align:right;
-        font-family: "Trebuchet MS",Arial;
-        font-size: 12px;    
-        vertical-align: baseline;
-        padding-right:4px;
-    }
-</style>
-
-<table class="wide-table" border="0">
-    <tbody>
-        <tr>
-            <td align="left">
-                
-                    <input id="sortDirection" name="sortDirection" value="DESC" type="hidden" value="DESC"/>					 			
-                    
-                    
-                        
-                        
-                        <a href="#" onclick="changeSortDirection('ASC');"><img src="/wps/PA_Petition_Portlet/images/sort_num_ascending.png" alt="Tri ascendant" title="Tri ascendant" height="16" width="16"></a>
-                        <img src="/wps/PA_Petition_Portlet/images/grayscale_sort_num_descending.png" alt="Tri descendant" title="Tri descendant" height="16" width="16">					
-                    
-                    
-                    
-                    
-                        <span><input id="sortField1" name="sortField" onclick="doSubmit()" type="radio" value="dateDepot" checked="checked"/><label for="sortField1">Date</label></span><span><input id="sortField2" name="sortField" onclick="doSubmit()" type="radio" value="numeroPetition"/><label for="sortField2">Num&eacute;ro</label></span>
-                    
-                
-            </td>
-            
-                <td align="right">			
-                    					
-                    <input id="pageNumber" name="pageNumber" value="1" class="eP_input_num_page" onblur="doSubmit()" type="text" value="1" size="3"/>
-                    <label for="pageNumber" style="vertical-align:baseline;">/ 44</label>									 
-                    
-                        <a href="#" style="color: #FFFFFF" onclick="rollPage(1)">
-                            <img src="/wps/PA_Petition_Portlet/images/triangle_d.gif"
-                                 alt="next"
-                                 style="vertical-align:middle; text-align:center; width:15px; height:15px; border:0px;"/>
-                        </a>
-                    
-                </td>
-            
-        </tr>
-    </tbody>
-</table>
-
-<script type="text/javascript">
-    function rollPage(howMuch)
-    {
-        jQuery('#pageNumber').val(parseInt(jQuery('#pageNumber').val()) + howMuch);
-        doSubmit();
-    }
-
-    function changeSortDirection(newSortDirection)
-    {
-        jQuery('#sortDirection').val(newSortDirection);
-        doSubmit();
-    }
-
-    function checkPageAndSubmit()
-    {
-        if (checkPageNumber())
-            doSubmit();
-    }
-
-    function checkPageNumber()
-    {
-        jQFieldNumPage = jQuery('#pageNumber');
-        if (jQFieldNumPage.length)
-        {
-            numPage = parseInt(jQFieldNumPage.val());
-            if (isNaN(numPage) || (numPage > 44) || (numPage < 1))
-            {
-                console.log(jQFieldNumPage.val());
-                alert("Numéro de page non valide!");
-                console.log(jQFieldNumPage.val());
-                jQFieldNumPage.val(1);
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function handleKeyDownEvent(event)
-    {
-        if (event.which)
-            mykey = event.which;
-        else
-            mykey = event.keyCode;
-
-        if (mykey === 13)
-            checkPageAndSubmit();
-    }
-</script>
-<!-- END pagination -->	
-    </form>
-    <br />
     
 
-
-
-<!-- BEGIN petitionElementsList -->
-<table class="wide-table" border="0" cellpadding="3" cellspacing="0"> 
-    <tbody>
+    <div class="panel_div">
+        
+            <div class="panel">
+                <br />
+                <span class="panel_title">Evènements</span>:
+                <br />
+                <table class="table" cellspacing="1">
+                    <tbody>
+                        <tr class="table_column_title">
+                            <td width="10%" align="center">Date</td>
+                            <td width="65%" align="center">Descriptif de l'évènement</td>
+                            <td width="25%" align="center">Liens</td>
+                        </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>14-02-2016</td>
+                                <td>Dépôt</td>
+                                <td style="vertical-align:top;">
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>16-02-2016</td>
+                                <td>La pétition publique n°610 est déposée.<br /><br />Numéro de la pétition: 610<br />Intitulé de la pétition: Pour une véritable billetterie nationale<br /><br />But de la pétition: Pour réserver des billets pour des manifestations culturelles, il y a lieu de s'y connaître. En effet, les différents organisateurs d’événements culturels, comme par exemple l'LCTO, la philharmonie, le Grand théâtre, les Rotondes, les centres culturels du pays, etc.  ne sont pas tous regroupés ou ne partagent pas tous leurs spectacles sur Luxticket pour la réservation et la vente de billets. Ainsi, l’utilisateur lambda, loin de connaître à chaque fois l’organisateur d’un spectacle, a un problème pour réserver des places et cela dans un si petit pays. Dat kann dach net sinn. Svp parlez ensemble et le succès est réalisable.<br /><br />Motivation de l'intérêt général de la pétition: Pour faciliter la réservation de places aux manifestations.</td>
+                                <td style="vertical-align:top;">
+                                    
+                                        <img src="/wps/PA_RoleEtendu/images/pdf.gif" align="absmiddle" hspace="3" vspace="3" width="16" height="16" border="0"><a href="#" onClick="openWindow('/wps/PA_RoleEtendu/FTSByteServingServletImpl/?path=/export/exped/sexpdata/Mag/160/542/155491.pdf','download',800,600,'yes')" title="1701">Texte de la pétition</a>
+                                        </br>
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>17-03-2016</td>
+                                <td>La Commission des Pétitions a donné un avis favorable au sujet de la pétition publique n°610.<br /><br />Avis de la Commission des Pétitions: favorable</td>
+                                <td style="vertical-align:top;">
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>21-03-2016</td>
+                                <td>La pétition publique n°610 est déclarée recevable par la Conférence des Présidents.<br /><br />Recevabilité: recevable<br />Date de début de la période de signature: 22-03-2016<br />Date de fin de la période de signature: 03-05-2016<br />Date d'ouverture du forum: 22-03-2016<br />Date de fermeture du forum: 03-05-2016</td>
+                                <td style="vertical-align:top;">
+                                    
+                                        <img src="/wps/PA_RoleEtendu/images/pdf.gif" align="absmiddle" hspace="3" vspace="3" width="16" height="16" border="0"><a href="#" onClick="openWindow('/wps/PA_RoleEtendu/FTSByteServingServletImpl/?path=/export/exped/sexpdata/Mag/160/548/155497.pdf','download',800,600,'yes')" title="1715">Déclaration de recevabilité</a>
+                                        </br>
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>22-03-2016</td>
+                                <td>La pétition publique n°610 est ouverte à signature.</td>
+                                <td style="vertical-align:top;">
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>04-05-2016</td>
+                                <td>Clôture de la période de signature</td>
+                                <td style="vertical-align:top;">
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>13-05-2016</td>
+                                <td>Le seuil des 4500 signatures n'est pas atteint pour la pétition publique n°610.Nombre de signatures après validation: 14</td>
+                                <td style="vertical-align:top;">
+                                    
+                                </td>
+                            </tr>
+                        
+                            <tr class="table_column_content">
+                                <td>24-05-2016</td>
+                                <td>Demande concernant la poursuite de l'instruction de la pétition reclassée en pétition ordinaire </td>
+                                <td style="vertical-align:top;">
+                                    
+                                        <img src="/wps/PA_RoleEtendu/images/pdf.gif" align="absmiddle" hspace="3" vspace="3" width="16" height="16" border="0"><a href="#" onClick="openWindow('/wps/PA_RoleEtendu/FTSByteServingServletImpl/?path=/export/exped/sexpdata/Mag/173/573/157722.pdf','download',800,600,'yes')" title="1799">Demande concernant la poursuite de l'instruction de la pétition reclassée en pétition ordinaire </a>
+                                        </br>
+                                    
+                                </td>
+                            </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
         
         
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 12-06-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Elouan Bazille</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>En examen de recevabilité</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=730">
-                            Pétition publique 671
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Obligation de s'attacher dans les bus
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 09-06-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Thuy Nguyen</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>En examen de recevabilité</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=729">
-                            Pétition publique 670
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Élargir les aides du chèque service auprès des sociétés spécialisées dans les services aux particuliers. Aller au-delà des aides aux structures de garde ou bien des ASBL pour les activités sportives. 
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 07-06-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Steven Curfs</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>En examen de recevabilité</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=727">
-                            Pétition publique 669
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Pour la suppression du minimum facturable quand on souhaite payer avec une carte de crédit/débit chez un commerçant (5€ limit).
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 31-05-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Nathalie Litzenburger</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Recevable (reclassée: seuil non atteint)</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=728">
-                            Pétition ordinaire 612
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Création d'un système de Chèque emploi service
-
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 28-05-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur:  Marc FISCH, Marco GAASCH, Aloyse MARX, Camille SCHROEDER au nom de Centrale Paysanne, Chambre d'Agriculture, Fräie Lëtzebuerger Bauereverband, Bauerenallianz</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Fin de la période de signature: 18-07-2016</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=726">
-                            Pétition publique 668
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Lëtzebuerger Produkter an der öffentlecher Restauratioun !
-(Crèchen, Schoulen, Maisons Relais, Kliniken, Altersheemer, asw.)
-Priorité pour les produits luxembourgeois dans la restauration collective !
-
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            <b><a href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=petition_id=726/p=ePetition=PetitionSignatureList/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" title="Accéder à la liste des signatures">Signatures électroniques: 1521</a><br /></b>
-                            
-                            							
-                            <b><a href="/wps/portal/public/SignerPetition?action=doPetitionSignature&amp;id=726">
-                                        <img src="/wps/PA_Petition_Portlet/images/signer_64x64.png" valign="middle" height="16" hspace="4">Signer la pétition</a><br />
-                                    
-                                    <a href="/wps/portal/public/EpetitionForum?action=doPetitionForum&amp;id=726" >
-                                        <img src="/wps/PA_Petition_Portlet/images/forum_104x64.png" valign="middle" height="16" hspace="4">Participer au forum</a>
-                                </b>
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 26-05-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Marc Faramelli</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Fin de la période de signature: 18-07-2016</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=725">
-                            Pétition publique 667
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Pétition pour pouvoir déduire les frais d'une déclaration d'impôt privée
-
-Fir d'Ofsetzen vun de Fraisen fir eng privat Steiererklärung
-
-Für die Absetzbarkeit der Unkosten einer privaten Steuererklärung
-
-For the deduction of expenses for a private tax return
-
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            <b><a href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=petition_id=725/p=ePetition=PetitionSignatureList/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" title="Accéder à la liste des signatures">Signatures électroniques: 30</a><br /></b>
-                            
-                            							
-                            <b><a href="/wps/portal/public/SignerPetition?action=doPetitionSignature&amp;id=725">
-                                        <img src="/wps/PA_Petition_Portlet/images/signer_64x64.png" valign="middle" height="16" hspace="4">Signer la pétition</a><br />
-                                    
-                                    <a href="/wps/portal/public/EpetitionForum?action=doPetitionForum&amp;id=725" >
-                                        <img src="/wps/PA_Petition_Portlet/images/forum_104x64.png" valign="middle" height="16" hspace="4">Participer au forum</a>
-                                </b>
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 25-05-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Fatima Rougi au nom de Planning Familial</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Fin de la période de signature: 18-07-2016</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=724">
-                            Pétition publique 665
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Pour une baisse de la TVA sur les protections hygiéniques féminines 
-
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            <b><a href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=petition_id=724/p=ePetition=PetitionSignatureList/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" title="Accéder à la liste des signatures">Signatures électroniques: 768</a><br /></b>
-                            
-                            							
-                            <b><a href="/wps/portal/public/SignerPetition?action=doPetitionSignature&amp;id=724">
-                                        <img src="/wps/PA_Petition_Portlet/images/signer_64x64.png" valign="middle" height="16" hspace="4">Signer la pétition</a><br />
-                                    
-                                    <a href="/wps/portal/public/EpetitionForum?action=doPetitionForum&amp;id=724" >
-                                        <img src="/wps/PA_Petition_Portlet/images/forum_104x64.png" valign="middle" height="16" hspace="4">Participer au forum</a>
-                                </b>
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 23-05-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Claude Eich </b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Recevable</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=720">
-                            Pétition ordinaire 663
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Pour faire cesser le harcèlement moral dans le cadre professionnel.
-
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 23-05-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Daniel CIMA</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Fin de la période de signature: 18-07-2016</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=719">
-                            Pétition publique 664
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Que les pétitions publiques sur ce site soient aussi consultables en luxembourgeois, en anglais et en allemand.
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            <b><a href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=petition_id=719/p=ePetition=PetitionSignatureList/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" title="Accéder à la liste des signatures">Signatures électroniques: 26</a><br /></b>
-                            
-                            							
-                            <b><a href="/wps/portal/public/SignerPetition?action=doPetitionSignature&amp;id=719">
-                                        <img src="/wps/PA_Petition_Portlet/images/signer_64x64.png" valign="middle" height="16" hspace="4">Signer la pétition</a><br />
-                                    
-                                    <a href="/wps/portal/public/EpetitionForum?action=doPetitionForum&amp;id=719" >
-                                        <img src="/wps/PA_Petition_Portlet/images/forum_104x64.png" valign="middle" height="16" hspace="4">Participer au forum</a>
-                                </b>
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
-                <tr>
-                    <td align="left" style="width:10em; vertical-align:middle;" bgcolor="#ebebeb" >
-                        <b>Dépôt: 20-05-2016</b>
-                    </td>
-                    <td align=center style="vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Auteur: Catherine De Coninck</b>
-                    </td>
-                    <td align="right" style="width:12em; vertical-align:middle;" bgcolor="#ebebeb">
-                        <b>Fin de la période de signature: 18-07-2016</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7" width="25%">
-                        <a href="/wps/portal/public/PetitionDetail?action=doPetitionDetail&amp;id=718">
-                            Pétition publique 662
-                        </a>
-                    </td>
-                    <td align="left" style="vertical-align:middle;" bgcolor="#f7f7f7">
-                        Suppression des droits de succession et de mutation par décès à verser par les époux sans enfants ni descendants communs
-                    </td>
-                    <td align="right" style="vertical-align:middle;" bgcolor="#f7f7f7" nowrap="nowrap">
-                        
-                            <b><a href="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=petition_id=718/p=ePetition=PetitionSignatureList/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" title="Accéder à la liste des signatures">Signatures électroniques: 19</a><br /></b>
-                            
-                            							
-                            <b><a href="/wps/portal/public/SignerPetition?action=doPetitionSignature&amp;id=718">
-                                        <img src="/wps/PA_Petition_Portlet/images/signer_64x64.png" valign="middle" height="16" hspace="4">Signer la pétition</a><br />
-                                    
-                                    <a href="/wps/portal/public/EpetitionForum?action=doPetitionForum&amp;id=718" >
-                                        <img src="/wps/PA_Petition_Portlet/images/forum_104x64.png" valign="middle" height="16" hspace="4">Participer au forum</a>
-                                </b>
-                            
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                </tr>
-            
         
-    </tbody>
-</table>
-<!-- END petitionElementsList -->
-    <form id="petitionSearchForm" action="/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiC3t5KaYcXpY8QDdpIpBPTATEkUCbG9YsLMHJmJ_k_FlnPUUDJtUDB7izm9B6f6TUuOU3fH-UDwXSdQUuVlQWQDbIpWw-WyjXo14D7gpwHdGCkBN-6o5bNXjSWb_OoVLhaOtVa3yrwcOChvlQIHrd5-DGCfz4MmZ3dMg9sjpMxinYf1vZUcw!!/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=ePetition=listPetitionRole/-/#Z7_5T6UAKA71GR720A872MA2Q1GS5" method="GET" onsubmit="return checkPageNumber();">
         
-
-
-
-
-
-
-<!-- BEGIN pagination -->
-<style>    
-    .eP_input_num_page {     
-        text-align:right;
-        font-family: "Trebuchet MS",Arial;
-        font-size: 12px;    
-        vertical-align: baseline;
-        padding-right:4px;
-    }
-</style>
-
-<table class="wide-table" border="0">
-    <tbody>
-        <tr>
-            <td align="left">
-                
-                    <input id="sortDirection" name="sortDirection" value="DESC" type="hidden" value="DESC"/>					 			
-                    
-                    
-                        
-                        
-                        <a href="#" onclick="changeSortDirection('ASC');"><img src="/wps/PA_Petition_Portlet/images/sort_num_ascending.png" alt="Tri ascendant" title="Tri ascendant" height="16" width="16"></a>
-                        <img src="/wps/PA_Petition_Portlet/images/grayscale_sort_num_descending.png" alt="Tri descendant" title="Tri descendant" height="16" width="16">					
-                    
-                    
-                    
-                    
-                        <span><input id="sortField3" name="sortField" onclick="doSubmit()" type="radio" value="dateDepot" checked="checked"/><label for="sortField3">Date</label></span><span><input id="sortField4" name="sortField" onclick="doSubmit()" type="radio" value="numeroPetition"/><label for="sortField4">Num&eacute;ro</label></span>
-                    
-                
-            </td>
-            
-                <td align="right">			
-                    					
-                    <input id="pageNumber" name="pageNumber" value="1" class="eP_input_num_page" onblur="doSubmit()" type="text" value="1" size="3"/>
-                    <label for="pageNumber" style="vertical-align:baseline;">/ 44</label>									 
-                    
-                        <a href="#" style="color: #FFFFFF" onclick="rollPage(1)">
-                            <img src="/wps/PA_Petition_Portlet/images/triangle_d.gif"
-                                 alt="next"
-                                 style="vertical-align:middle; text-align:center; width:15px; height:15px; border:0px;"/>
-                        </a>
-                    
-                </td>
-            
-        </tr>
-    </tbody>
-</table>
-
-<script type="text/javascript">
-    function rollPage(howMuch)
-    {
-        jQuery('#pageNumber').val(parseInt(jQuery('#pageNumber').val()) + howMuch);
-        doSubmit();
-    }
-
-    function changeSortDirection(newSortDirection)
-    {
-        jQuery('#sortDirection').val(newSortDirection);
-        doSubmit();
-    }
-
-    function checkPageAndSubmit()
-    {
-        if (checkPageNumber())
-            doSubmit();
-    }
-
-    function checkPageNumber()
-    {
-        jQFieldNumPage = jQuery('#pageNumber');
-        if (jQFieldNumPage.length)
-        {
-            numPage = parseInt(jQFieldNumPage.val());
-            if (isNaN(numPage) || (numPage > 44) || (numPage < 1))
-            {
-                console.log(jQFieldNumPage.val());
-                alert("Numéro de page non valide!");
-                console.log(jQFieldNumPage.val());
-                jQFieldNumPage.val(1);
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function handleKeyDownEvent(event)
-    {
-        if (event.which)
-            mykey = event.which;
-        else
-            mykey = event.keyCode;
-
-        if (mykey === 13)
-            checkPageAndSubmit();
-    }
-</script>
-<!-- END pagination -->	
-    </form>
-    <!-- END PetitionRoleListContent -->
-</div>
-
-<script>
-    
-    function doSubmit()
-    {
-        jQuery('#petitionSearchForm').submit();
-    }
-
-    function submitNewSearch()
-    {
-    
-        jQuery('#pageNumber').prop("disabled", true);
-        doSubmit();
-    }
-</script>	
-<!-- END PetitionRole -->
+                                            </div>
+                                            </div>
+                                            <br />
+                                            <div class="previous_page">
+                                                <a href="javascript:history.back()" >
+                                                    <img src="/wps/PA_Petition_Portlet/images/undo.png" height="16" align="absmiddle" border="0" hspace="3" vspace="3" width="16">
+                                                </a>
+                                                <a href="javascript:history.back()">Retour</a>
+                                            </div>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                            </table>
+                                            <!-- END REGION -->
 		</td>
 	</tr>
 	
