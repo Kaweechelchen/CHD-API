@@ -1,6 +1,9 @@
 <?php
 
     // https://regex101.com/r/lA2tT6/1
+    // https://petition.parliament.uk/petitions.json?state=open
+
+    const HOST = 'http://chd.lu';
 
     function processPage($url)
     {
@@ -13,9 +16,50 @@
 
     function getPetitions()
     {
-        //$data = processPage('http://chd.lu/wps/portal/public/RolePetition');
+        $data                  = processPage(HOST.'/wps/portal/public/RolePetition');
+        $paginationPathPattern = '/action="(?P<pagination>[^#]*)/';
 
-        $data = processPage(__DIR__.'/../source/petitions.html');
+        if (!preg_match($paginationPathPattern, $data, $paginationPath)) {
+            throw new Exception('couldn\'t find the pagination path');
+        }
+        $paginationPath = $paginationPath['pagination'];
+
+        $paginationPathPattern = '/for="pageNumber"[^\/]*\/\s*(?P<lastPage>\d+)/';
+
+        if (!preg_match($paginationPathPattern, $data, $lastPage)) {
+            throw new Exception('couldn\'t find last page');
+        }
+
+        $paginationURLPattern = '/<form id="petitionSearchForm" action="(?P<paginationURL>.*?)"/';
+
+        if (!preg_match($paginationURLPattern, $data, $paginationURL)) {
+            throw new Exception('couldn\'t find last page');
+        }
+
+        $paginationURL = rtrim($paginationURL['paginationURL'], '/');
+
+        $paginationURL = HOST.$paginationURL.'/?type=TOUTES&etat=TOUS&sousEtat=TOUS&sortDirection=DESC&sortField=dateDepot&pageNumber=';
+
+        $lastPage = $lastPage['lastPage'];
+
+        $total = 0;
+
+        $petitions = [];
+
+        for ($page = 1; $page <= $lastPage; ++$page) {
+            // TODO remove after debugging / testing
+            if ($page > 1) {
+                continue;
+            }
+            $petitions = array_merge($petitions, processPetitionsPage($paginationURL.$page));
+        }
+
+        print_r($petitions);
+    }
+
+    function processPetitionsPage($page)
+    {
+        $data = processPage($page);
 
         $startString = '<!-- BEGIN petitionElementsList -->';
 
@@ -32,7 +76,6 @@
 
         if (!preg_match($tablePattern, $petitionsString, $table)) {
             echo 'something is wrong...';
-            exit;
         }
 
         $table = trim($table[1]);
@@ -67,35 +110,23 @@
             ++$count;
         }
 
-        $paginationPathPattern = '/action="(?P<pagination>[^#]*)/';
-
-        if (!preg_match($paginationPathPattern, $data, $paginationPath)) {
-            throw new Exception('couldn\'t find the pagination path');
-        }
-        $paginationPath = $paginationPath['pagination'];
-
-        $paginationPathPattern = '/for="pageNumber"[^\/]*\/\s*(?P<lastPage>\d+)/';
-
-        if (!preg_match($paginationPathPattern, $data, $paginationPath)) {
-            throw new Exception('couldn\'t find last page');
-        }
-
-        //<label for="pageNumber" style="vertical-align:baseline;">
-
-        print_r($paginationPath);
-        exit;
-
         $petitions = [];
 
         foreach ($rawPetitions as $key => $rawPetition) {
+            // TODO remove after debugging / testing
+            if ($key > 0) {
+                continue;
+            }
             $metaData = handleMeta($rawPetition['meta']);
             $info     = handleInfo($rawPetition['info']);
-            $details  = handlePetitionDetails('http://www.chd.lu'.$info['link']);
-
             $petition = [];
             $petition = array_merge($petition, $metaData);
             $petition = array_merge($petition, $info);
-            $petition = array_merge($petition, $details);
+
+            if (isset($info['link'])) {
+                $details  = handlePetitionDetails(HOST.$info['link']);
+                $petition = array_merge($petition, $details);
+            }
 
             $petitions[] = $petition;
         }
@@ -120,8 +151,9 @@
 
         return [
             'link'              => html_entity_decode($infoMatches['link']),
+            'id'                => explode('id=', $infoMatches['link'])[1],
             'number'            => $infoMatches['number'],
-            //'online_signatures' => $infoMatches['online_signatures'],
+            'online_signatures' => $infoMatches['online_signatures'],
         ];
     }
 
@@ -142,8 +174,7 @@
 
     function handlePetitionDetails($url)
     {
-        //$data = processPage($url);
-        $data = processPage(__DIR__.'/../source/724.html');
+        $data = processPage($url);
 
         $startString = '<div id="PRINT_EPETITION_DETAIL">';
 
@@ -171,11 +202,11 @@
         return [
             'name'                  => trim($metaMatches['name']),
             'description'           => trim($metaMatches['description']),
-            //'status'                => trim($metaMatches['status']),
-            //'author'                => trim($metaMatches['author']),
+            'status'                => trim($metaMatches['status']),
+            'author'                => trim($metaMatches['author']),
             'signatures_electronic' => trim($metaMatches['signatures_electronic']),
             'signatures_paper'      => trim($metaMatches['signatures_paper']),
-            //'events'              => handleEvents($metaMatches['events_table']),
+            'events'                => handleEvents($metaMatches['events_table']),
         ];
     }
 
@@ -211,7 +242,7 @@
             if (preg_match($linkPattern, $eventMatches['link'], $linkMatches)) {
                 $link = [
                     'name' => $linkMatches['name'],
-                    'link' => $linkMatches['link'],
+                    'link' => HOST.$linkMatches['link'],
                 ];
             } else {
                 $link = null;
