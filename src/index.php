@@ -119,9 +119,9 @@
 
         for ($page = 1; $page <= $lastPage; ++$page) {
             // TODO remove after debugging / testing
-            if ($page != 2) {
+            /*if ($page != 2) {
                 continue;
-            }
+            }*/
 
             $petitions = array_merge($petitions, processPetitionsPage(HOST.$petitionURL, $paginationURL.$page));
         }
