@@ -7,16 +7,17 @@
 
     function processPage($url)
     {
-        //echo 'getting page:'.PHP_EOL.$url.PHP_EOL.'...';
+        echo 'getting page:'.PHP_EOL.$url.PHP_EOL.'...';
 
         $data = file_get_contents($url);
 
-        //echo 'DONE'.PHP_EOL;
+        echo 'DONE'.PHP_EOL;
 
         return trim(preg_replace('/\s+/', ' ', $data));
     }
 
-    echo json_encode(getPetitions());
+    $file = 'petitions.json';
+    file_put_contents($file, json_encode(getPetitions()));
 
     function handlePageSignatures($signaturesRaw)
     {
@@ -125,7 +126,7 @@
             $petitions = array_merge($petitions, processPetitionsPage(HOST.$petitionURL, $paginationURL.$page));
         }
 
-        print_r($petitions);
+        return $petitions;
     }
 
     function processPetitionsPage($petitionURL, $pageURL)
@@ -212,9 +213,6 @@
         $infoPattern = '/<td[^>]*> <a href="(?P<link>[^"]*).*Pétition (?:publique|ordinaire) (?P<number>\d+)(.*électroniques: (?P<online_signatures>\d+))?.*<\/td>/';
 
         if (!preg_match($infoPattern, $info, $infoMatches)) {
-            print_r($info);
-            die();
-
             throw new Exception('info not matching');
         }
 
@@ -296,9 +294,6 @@
             }
 
             if (!preg_match($eventPattern, $event, $eventMatches)) {
-                print_r($event);
-                die();
-
                 throw new Exception('eventdata not matching');
             }
 
