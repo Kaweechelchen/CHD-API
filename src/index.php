@@ -12,7 +12,59 @@
         return trim(preg_replace('/\s+/', ' ', $data));
     }
 
-    print_r(getPetitions());
+    print_r(handleSignatures(771));
+
+    function handleSignatures($id)
+    {
+        $signaturesRaw = getSignatures($id);
+
+        $signatures = [];
+
+        foreach ($signaturesRaw as $signature) {
+            $signatureMetaPattern  = '/(?:(?:<td[^>]*)>(?P<data>.[^<]*))<\/td>/';
+            if (!preg_match_all($signatureMetaPattern, $signature, $signatureMeta)) {
+                throw new Exception('couldn\'t find any signature');
+            }
+
+            switch (count($signatureMeta['data'])) {
+                case 1:
+                    $signatureMeta = false;
+                    break;
+                case 4:
+                    $signatureMeta = [
+                        'lastname' => $signatureMeta['data'][0],
+                        'fistname' => $signatureMeta['data'][1],
+                        'city'     => $signatureMeta['data'][2],
+                        'zip'      => trim(strtolower($signatureMeta['data'][3]), 'l-'),
+                    ];
+                    break;
+                default:
+                    throw new Exception('unknown amount of signature details');
+
+            }
+
+            //$signatureMeta = $signatureMeta['data'];
+
+            $signatures[] = $signatureMeta;
+        }
+
+        return $signatures;
+    }
+
+    function getSignatures($id)
+    {
+        $data                  = processPage('../source/sign_771_1.html');
+        $signaturePattern      = '/<tr class="table_column_content">(?:\ )?(?P<signature>.*?)(?:\ )?<\/tr>/';
+        if (!preg_match_all($signaturePattern, $data, $signature)) {
+            throw new Exception('couldn\'t find any signature');
+        }
+
+        $signature = $signature['signature'];
+
+        return $signature;
+    }
+
+    //print_r(getPetitions());
 
     function getPetitions()
     {
@@ -264,3 +316,56 @@
     {
         return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
     }
+
+    // signatures:
+    //   http://chd.lu
+    //   /wps
+    //   /portal
+    //   /public
+    //   /!ut
+    //   /p
+    //   /b1
+    //   /jctLCsIwFIXhtbiC3MTkNh3eaPOgKNVgsZlIBkUKfUzE9VsXIPbMDvwfS6zTikuFBUh2Z2nO7-GZX8My5_H7Ez4E2La1wpFxqIBcxLpoAjgq1qBbAx4U-QDCg0WE0PhjibXc145v80LreHV0qsryZiDAgcfqYgQEsc3DjxH887Gf2dkvU8-mNFqrafcBquUxIQ!!
+    //   /dl4
+    //   /d5
+    //   /L2dBISEvZ0FBIS9nQSEh
+    //   /pw
+    //   /Z7_5T6UAKA71GR720A872MA2Q1GS5
+    //   /ren
+    //   /p=petition_id=771
+    //   /p=ePetition=PetitionSignatureList/-/
+    //
+    //   http://chd.lu
+    //   /wps
+    //   /portal
+    //   /public
+    //   /!ut
+    //   /p
+    //   /b1
+    //   /jcvRboIwGIbhK1r6t9KWHv4glAp1QMUIJwQT45gImLAdePVjF7DM7-xL3oc0pPY59biQ4JETacbuu792Sz-N3fD7G9EyiI_HmGkMtOCA2olU5gY0yjWo14AajokBlkAsBJg82SqReptU09c8831XarSRUlUABkLqoiJgYNhrHv4Ywn_eXUayT6b7hdRrKlt-EBWmKKkuJQ//   P0JbPICqodJwdyAq91nzDtXbjZZXa0T_Wef2Q6tCp_Rrcl7elO2WnJlIkf4QOd39zmtzm58-ksvsrz0F9xthVW5N4Mcexvix_O3TgC
+    //   /dl4
+    //   /d5
+    //   /L2dBISEvZ0FBIS9nQSEh
+    //   /pw
+    //   /Z7_5T6UAKA71GR720A872MA2Q1GS5
+    //   /ren
+    //   /p=petition_id=771
+    //   /p=ePetition=PetitionSignatureList/-/
+    //   ?sortDirection=DESC&pageNumber=2
+
+    // http://chd.lu/wps/portal/public/!ut/p/b1/jcvLDoIwEIXhR5rpSC8sB6WlIRqhQCwbwoIYEsCN8fnFBzB6dif5P-ghGikSqTQmcIN-G1_zfXzOj21cPr9XA6HtOkuOM6cksguq1FePjvUexD0QXnLhkQq0SqG_FqdUlcmhdOI_T8aE2vE5T9M2Q49HEfIqI_T0n8cvY_zlw7TBpXisE8Q91YNsVMsla-FqTchG05mpEi5IaCDmsPaLteZUvQGw2zMU/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=petition_id=771/p=ePetition=PetitionSignatureList/-/?sortDirection=DESC&pageNumber=1#Z7_5T6UAKA71GR720A872MA2Q1GS5
+
+    // TODO: remove before PROD
+    echo PHP_EOL;
+
+// <tr class="table_column_content">(?:(?:[^>]*)>(.[^<]*))(.*)<\/tr>
+// <tr class="table_column_content">
+//<td style="border-width : 1px 0 1px 1px;">PIMOLTHAI</td><td style="border-width : 1px 0 1px 0;">Patttaraporn</td><td style="border-width : 1px 0 1px 0;">Luxembourg</td><td style="border-width : 1px 1px 1px 0;">L-1326</td></tr>
+//
+//
+//
+//(?:(?:<td[^>]*)>(.[^<]*))
+//<td style="border-width : 1px 0 1px 1px;">PIMOLTHAI</td>
+//<td style="border-width : 1px 0 1px 0;">Patttaraporn</td>
+//<td style="border-width : 1px 0 1px 0;">Luxembourg</td>
+//<td style="border-width : 1px 1px 1px 0;">L-1326</td>
