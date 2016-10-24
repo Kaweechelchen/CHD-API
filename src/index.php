@@ -7,16 +7,16 @@
 
     function processPage($url)
     {
-        echo 'getting page:'.PHP_EOL.$url.PHP_EOL.'...';
+        //echo 'getting page:'.PHP_EOL.$url.PHP_EOL.'...';
 
         $data = file_get_contents($url);
 
-        echo 'DONE'.PHP_EOL;
+        //echo 'DONE'.PHP_EOL;
 
         return trim(preg_replace('/\s+/', ' ', $data));
     }
 
-    print_r(getPetitions());
+    echo json_encode(getPetitions());
 
     function handlePageSignatures($signaturesRaw)
     {
