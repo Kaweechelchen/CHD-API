@@ -7,23 +7,25 @@
 
     function processPage($url)
     {
+        echo 'getting page:'.PHP_EOL.$url.PHP_EOL.'...';
+
         $data = file_get_contents($url);
+
+        echo 'DONE'.PHP_EOL;
 
         return trim(preg_replace('/\s+/', ' ', $data));
     }
 
-    print_r(handleSignatures(771));
+    print_r(getPetitions());
 
-    function handleSignatures($id)
+    function handlePageSignatures($signaturesRaw)
     {
-        $signaturesRaw = getSignatures($id);
-
         $signatures = [];
 
         foreach ($signaturesRaw as $signature) {
             $signatureMetaPattern  = '/(?:(?:<td[^>]*)>(?P<data>.[^<]*))<\/td>/';
             if (!preg_match_all($signatureMetaPattern, $signature, $signatureMeta)) {
-                throw new Exception('couldn\'t find any signature');
+                throw new Exception('couldn\'t find any signature data');
             }
 
             switch (count($signatureMeta['data'])) {
@@ -43,28 +45,44 @@
 
             }
 
-            //$signatureMeta = $signatureMeta['data'];
-
             $signatures[] = $signatureMeta;
         }
 
         return $signatures;
     }
 
-    function getSignatures($id)
+    function getSignatures($url, $page = 1)
     {
-        $data                  = processPage('../source/sign_771_1.html');
+        $data = processPage($url.$page);
+
+        $signatures = false;
+
         $signaturePattern      = '/<tr class="table_column_content">(?:\ )?(?P<signature>.*?)(?:\ )?<\/tr>/';
-        if (!preg_match_all($signaturePattern, $data, $signature)) {
-            throw new Exception('couldn\'t find any signature');
+        if (preg_match_all($signaturePattern, $data, $signature)) {
+            $signature = $signature['signature'];
+
+            $signatures = handlePageSignatures($signature);
+
+            if ($page == 1) {
+                $paginationPathPattern = '/for="pageNumber"[^\/]*\/\s*(?P<lastPage>\d+)/';
+
+                if (preg_match($paginationPathPattern, $data, $lastPage)) {
+                    $lastPage = $lastPage['lastPage'];
+
+                    for ($page = 2; $page <= $lastPage; ++$page) {
+                        // TODO remove after debugging / testing
+                        /*if ($page > 1) {
+                            continue;
+                        }*/
+
+                        array_merge($signatures, getSignatures($url, $page));
+                    }
+                }
+            }
         }
 
-        $signature = $signature['signature'];
-
-        return $signature;
+        return $signatures;
     }
-
-    //print_r(getPetitions());
 
     function getPetitions()
     {
@@ -82,15 +100,15 @@
             throw new Exception('couldn\'t find last page');
         }
 
-        $paginationURLPattern = '/<form id="petitionSearchForm" action="(?P<paginationURL>.*?)"/';
+        $paginationURLPattern = '/<form id="petitionSearchForm" action="(?P<petitionURL>.*?)"/';
 
-        if (!preg_match($paginationURLPattern, $data, $paginationURL)) {
+        if (!preg_match($paginationURLPattern, $data, $petitionURL)) {
             throw new Exception('couldn\'t find last page');
         }
 
-        $paginationURL = rtrim($paginationURL['paginationURL'], '/');
+        $petitionURL = $petitionURL['petitionURL'];
 
-        $paginationURL = HOST.$paginationURL.'/?type=TOUTES&etat=TOUS&sousEtat=TOUS&sortDirection=DESC&sortField=dateDepot&pageNumber=';
+        $paginationURL = '?type=TOUTES&etat=TOUS&sousEtat=TOUS&sortDirection=DESC&sortField=dateDepot&pageNumber=';
 
         $lastPage = $lastPage['lastPage'];
 
@@ -100,18 +118,19 @@
 
         for ($page = 1; $page <= $lastPage; ++$page) {
             // TODO remove after debugging / testing
-            if ($page > 1) {
+            if ($page != 2) {
                 continue;
             }
-            $petitions = array_merge($petitions, processPetitionsPage($paginationURL.$page));
+
+            $petitions = array_merge($petitions, processPetitionsPage(HOST.$petitionURL, $paginationURL.$page));
         }
 
         print_r($petitions);
     }
 
-    function processPetitionsPage($page)
+    function processPetitionsPage($petitionURL, $pageURL)
     {
-        $data = processPage($page);
+        $data = processPage($petitionURL.$pageURL);
 
         $startString = '<!-- BEGIN petitionElementsList -->';
 
@@ -166,14 +185,16 @@
 
         foreach ($rawPetitions as $key => $rawPetition) {
             // TODO remove after debugging / testing
-            if ($key > 0) {
+            /*if ($key > 0) {
                 continue;
-            }
-            $metaData = handleMeta($rawPetition['meta']);
-            $info     = handleInfo($rawPetition['info']);
-            $petition = [];
-            $petition = array_merge($petition, $metaData);
-            $petition = array_merge($petition, $info);
+            }*/
+            $metaData               = handleMeta($rawPetition['meta']);
+            $info                   = handleInfo($rawPetition['info']);
+            $signatureURL           = str_replace('listPetitionRole', 'PetitionSignatureList/p=petition_id='.$info['id'], $petitionURL).'?sortDirection=DESC&pageNumber=';
+            $petition               = [];
+            $petition               = array_merge($petition, $metaData);
+            $petition               = array_merge($petition, $info);
+            $petition['signatures'] = getSignatures($signatureURL);
 
             if (isset($info['link'])) {
                 $details  = handlePetitionDetails(HOST.$info['link']);
