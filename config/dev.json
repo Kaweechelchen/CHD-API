@@ -1,0 +1,6 @@
+{
+    "debug": true,
+    "CHD": {
+        "host": "http://chd.lu"
+    }
+}

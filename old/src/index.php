@@ -5,7 +5,7 @@
 
     const HOST = 'http://chd.lu';
 
-    function processPage($url)
+    /*function processPage($url)
     {
         echo 'getting page:'.PHP_EOL.$url.PHP_EOL.'...';
 
@@ -14,7 +14,7 @@
         echo 'DONE'.PHP_EOL;
 
         return trim(preg_replace('/\s+/', ' ', $data));
-    }
+    }*/
 
     $file = 'petitions.json';
     //file_put_contents($file, json_encode(getPetitions()));

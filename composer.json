@@ -1,0 +1,14 @@
+{
+    "require": {
+        "silex/silex": "~2.0",
+        "twig/twig": "^1.26",
+        "doctrine/dbal": "^2.5",
+        "monolog/monolog": "^1.21",
+        "saxulum/config-service-provider": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CHD\\": "app/"
+         }
+    }
+}

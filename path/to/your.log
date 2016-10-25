@@ -1,0 +1,8 @@
+[2016-10-24 23:47:53] name.WARNING: Foo [] []
+[2016-10-24 23:47:53] name.ERROR: Bar [] []
+[2016-10-24 23:50:15] name.WARNING: Foo [] []
+[2016-10-24 23:50:15] name.ERROR: Bar [] []
+[2016-10-24 23:50:31] name.WARNING: Foo [] []
+[2016-10-24 23:50:31] name.ERROR: Bar [] []
+[2016-10-24 23:52:40] name.INFO: Adding a new user {"username":"Seldaek"} []
+[2016-10-24 23:53:11] name.INFO: Adding a new user {"username":"Seldaek"} []
