@@ -11,9 +11,9 @@ $app = new Silex\Application();
 $env = getenv('APP_ENV') ?: 'dev';
 $app->register(new Igorw\Silex\ConfigServiceProvider(__DIR__."/../config/$env.json"));
 
-$app['log'] = new Logger('name');
+$app['log'] = new Logger('CHD');
 $app['log']->pushHandler(new StreamHandler('log/'.date('Ymd').'.log', Logger::DEBUG));
 
-$app->mount('/', new CHD\scrapeControllerProvider());
+$app->mount('/', new CHD\Controller\scrapeControllerProvider());
 
 return $app;

@@ -1,11 +1,13 @@
 <?php
 
-namespace CHD;
+namespace CHD\Controller;
 
 use Silex\Application;
 use Silex\Api\ControllerProviderInterface;
 use CHD\Helpers\webRequest;
-use CHD\Helpers\CHDPetitionList;
+use CHD\Helpers\CHDScrapePath;
+use CHD\Helpers\CHDPetitionPages;
+use CHD\Helpers\CHDPetitionsFromPage;
 
 class scrapeControllerProvider implements ControllerProviderInterface
 {
@@ -13,13 +15,21 @@ class scrapeControllerProvider implements ControllerProviderInterface
     {
         $ctr = $app['controllers_factory'];
         $ctr->get('/', function (Application $app) {
-
             $app['log']->debug('scrape started');
-            $app['webRequest'] = new webRequest();
+            $app['webRequest'] = new webRequest($app);
+            $app['CHDFirstPage'] = $app['webRequest']->get($app['CHD']['list']['url']);
+            $app['CHDScrapePath'] = new CHDScrapePath($app);
+            $app['CHDPetitionPages'] = new CHDPetitionPages($app);
+            $app['CHDPetitionsFromPage'] = new CHDPetitionsFromPage($app);
 
-            $CHDPetitionList = new CHDPetitionList();
+            foreach ($app['CHDPetitionPages']->get() as $CHDPetitionPage) {
+                print_r($app['CHDPetitionsFromPage']->get($CHDPetitionPage));
+                die();
+            }
 
-            return $CHDPetitionList->getIDs($app);
+            die();
+
+            return $app['petitionList']->getIDs($app);
 
             //$CHDPetition     = new Helpers\CHDPetition();
             //$webRequest      = new Helpers\webRequest();
@@ -45,7 +55,6 @@ class scrapeControllerProvider implements ControllerProviderInterface
             }*/
 
             return 'hello';
-
         });
 
         return $ctr;

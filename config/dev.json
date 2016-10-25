@@ -1,6 +1,12 @@
 {
     "debug": true,
     "CHD": {
-        "host": "http://chd.lu"
+        "host": "http://chd.lu",
+        "xxlist": "http://chd.lu/wps/portal/public/RolePetition",
+        "list": {
+            "url": "old/source/petitions.html",
+            "type": "listPetitionRole",
+            "paginationArguments": "?type=TOUTES&etat=TOUS&sousEtat=TOUS&sortDirection=ASC&sortField=dateDepot&pageNumber="
+        }
     }
 }
