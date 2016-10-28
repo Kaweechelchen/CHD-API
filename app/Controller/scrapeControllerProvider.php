@@ -9,6 +9,7 @@ use CHD\Helpers\CHDScrapePath;
 use CHD\Helpers\CHDPetitionPages;
 use CHD\Helpers\CHDPetitionsFromPage;
 use CHD\Helpers\CHDPetition;
+use CHD\Helpers\CHDPetitionEvents;
 
 class scrapeControllerProvider implements ControllerProviderInterface
 {
@@ -23,6 +24,7 @@ class scrapeControllerProvider implements ControllerProviderInterface
             $app['CHDPetitionPages'] = new CHDPetitionPages($app);
             $app['CHDPetitionsFromPage'] = new CHDPetitionsFromPage($app);
             $app['CHDPetition'] = new CHDPetition($app);
+            $app['CHDPetitionEvents'] = new CHDPetitionEvents($app);
 
             $petitions = [];
             foreach ($app['CHDPetitionPages']->get() as $key => $CHDPetitionPage) {

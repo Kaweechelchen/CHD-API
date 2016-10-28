@@ -17,6 +17,9 @@ class CHDPetitionsFromPage
             $app['CHD']['list']['type'],
             $app['CHD']['list']['paginationArguments']
         );
+        if ($this->app['debug']) {
+            $this->url = $app['CHD']['list']['paginationArguments'];
+        }
     }
     public function get($page)
     {
