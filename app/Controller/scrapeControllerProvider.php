@@ -8,6 +8,7 @@ use CHD\Helpers\webRequest;
 use CHD\Helpers\CHDScrapePath;
 use CHD\Helpers\CHDPetitionPages;
 use CHD\Helpers\CHDPetitionsFromPage;
+use CHD\Helpers\CHDPetition;
 
 class scrapeControllerProvider implements ControllerProviderInterface
 {
@@ -21,11 +22,26 @@ class scrapeControllerProvider implements ControllerProviderInterface
             $app['CHDScrapePath'] = new CHDScrapePath($app);
             $app['CHDPetitionPages'] = new CHDPetitionPages($app);
             $app['CHDPetitionsFromPage'] = new CHDPetitionsFromPage($app);
+            $app['CHDPetition'] = new CHDPetition($app);
 
-            foreach ($app['CHDPetitionPages']->get() as $CHDPetitionPage) {
-                print_r($app['CHDPetitionsFromPage']->get($CHDPetitionPage));
-                die();
+            $petitions = [];
+            foreach ($app['CHDPetitionPages']->get() as $key => $CHDPetitionPage) {
+                if ($app['debug'] && $key > 0) {
+                    continue;
+                }
+                $petitions = array_merge(
+                    $petitions,
+                    $app['CHDPetitionsFromPage']->get($CHDPetitionPage)
+                );
             }
+
+            foreach ($petitions as $key => $petition) {
+                if ($app['debug'] && $key > 0) {
+                    continue;
+                }
+            }
+
+            print_r($petitions);
 
             die();
 
