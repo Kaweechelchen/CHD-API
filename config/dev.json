@@ -7,6 +7,9 @@
             "xxurl": "http://chd.lu/wps/portal/public/RolePetition",
             "type": "listPetitionRole",
             "paginationArguments": "?type=TOUTES&etat=TOUS&sousEtat=TOUS&sortDirection=ASC&sortField=dateDepot&pageNumber="
+        },
+        "petition": {
+            "url": "http://chd.lu/wps/portal/public/PetitionDetail?action=doPetitionDetail&id="
         }
     }
 }

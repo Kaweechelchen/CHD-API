@@ -39,6 +39,7 @@ class scrapeControllerProvider implements ControllerProviderInterface
                 if ($app['debug'] && $key > 0) {
                     continue;
                 }
+                $petitions[$key] = $app['CHDPetition']->get($petition);
             }
 
             print_r($petitions);
