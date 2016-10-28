@@ -131,7 +131,7 @@
         return $petitions;
     }
 
-    function processPetitionsPage($petitionURL, $pageURL)
+    /*function processPetitionsPage($petitionURL, $pageURL)
     {
         $data = processPage($petitionURL.$pageURL);
 
@@ -191,7 +191,7 @@
             /*if ($key > 0) {
                 continue;
             }*/
-            $metaData               = handleMeta($rawPetition['meta']);
+            /*$metaData               = handleMeta($rawPetition['meta']);
             $info                   = handleInfo($rawPetition['info']);
             $signatureURL           = str_replace('listPetitionRole', 'PetitionSignatureList/p=petition_id='.$info['id'], $petitionURL).'?sortDirection=DESC&pageNumber=';
             $petition               = [];
@@ -208,9 +208,9 @@
         }
 
         return $petitions;
-    }
+    }*/
 
-    function handleInfo($info)
+    /*function handleInfo($info)
     {
         $infoPattern = '/<td[^>]*> <a href="(?P<link>[^"]*).*Pétition (?:publique|ordinaire) (?P<number>\d+)(.*électroniques: (?P<online_signatures>\d+))?.*<\/td>/';
 
@@ -228,9 +228,9 @@
             'number'            => $infoMatches['number'],
             'online_signatures' => $infoMatches['online_signatures'],
         ];
-    }
+    }*/
 
-    function handleMeta($meta)
+    /*function handleMeta($meta)
     {
         $metaPattern = '/<td[^>]*> <b>Dépôt: (?P<submission>[^<]*)(?:.*)Auteur: (?P<author>[^<]*)(?:.*)<b>(?P<status>[^<]*).*<\/td>/';
 
@@ -243,9 +243,9 @@
             'submission' => strtotime($metaMatches['submission']),
             'status'     => $metaMatches['status'],
         ];
-    }
+    }*/
 
-    function handlePetitionDetails($url)
+    /*function handlePetitionDetails($url)
     {
         $data = processPage($url);
 
@@ -281,7 +281,7 @@
             'signatures_paper'      => trim($metaMatches['signatures_paper']),
             'events'                => handleEvents($metaMatches['events_table']),
         ];
-    }
+    }*/
 
     function handleEvents($eventsTable)
     {
@@ -352,7 +352,7 @@
     //   /ren
     //   /p=petition_id=771
     //   /p=ePetition=PetitionSignatureList/-/
-    //
+
     //   http://chd.lu
     //   /wps
     //   /portal
@@ -379,9 +379,7 @@
 // <tr class="table_column_content">(?:(?:[^>]*)>(.[^<]*))(.*)<\/tr>
 // <tr class="table_column_content">
 //<td style="border-width : 1px 0 1px 1px;">PIMOLTHAI</td><td style="border-width : 1px 0 1px 0;">Patttaraporn</td><td style="border-width : 1px 0 1px 0;">Luxembourg</td><td style="border-width : 1px 1px 1px 0;">L-1326</td></tr>
-//
-//
-//
+
 //(?:(?:<td[^>]*)>(.[^<]*))
 //<td style="border-width : 1px 0 1px 1px;">PIMOLTHAI</td>
 //<td style="border-width : 1px 0 1px 0;">Patttaraporn</td>
