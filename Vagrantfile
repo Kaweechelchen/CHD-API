@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VMname = "CHD-patitions-dev"
+VMname = "CHD-API-dev"
 
 Vagrant.configure(2) do |config|
 
@@ -9,8 +9,9 @@ Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/xenial64"
 
   config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 3306, host: 13306
 
-  config.vm.synced_folder ".", "/var/www/",
+  config.vm.synced_folder ".", "/var/www",
     owner: "ubuntu",
     group: "www-data",
     mount_options: ["dmode=775,fmode=664"]
@@ -52,6 +53,8 @@ Vagrant.configure(2) do |config|
         service apache2 reload
         apt-get -yf install
 
+        rm -rf /var/www/html ubuntu-xenial-16.04-cloudimg-console.log
+
         a2enmod rewrite
 
         mysql -uroot -proot < /var/www/sql/mysql.config.sql
@@ -59,7 +62,7 @@ Vagrant.configure(2) do |config|
 
 
     SCRIPT
-
+    #sed -i -e \'s/var\\/www\\/html/var\\/www\\/web/g\' /etc/apache2/sites-available/000-default.conf
     #mysql -uroot -proot chd < /var/www/sql/db_init.sql
 
 end

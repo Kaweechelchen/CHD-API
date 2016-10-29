@@ -3,7 +3,8 @@
         "silex/silex": "~2.0",
         "monolog/monolog": "^1.21",
         "saxulum/config-service-provider": "^2.0",
-        "jguyomard/silex-capsule-eloquent": "^2.0"
+        "robmorgan/phinx": "^0.6.5",
+        "doctrine/dbal": "^2.5"
     },
     "autoload": {
         "psr-4": {
