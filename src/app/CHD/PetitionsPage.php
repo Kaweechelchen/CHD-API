@@ -8,10 +8,6 @@ class PetitionsPage
 
     public function init()
     {
-        /*$this->petitionsPageURL = app('Path')->get(
-            'listPetitionRole',
-            'source/page1.html'
-        );*/
         $this->petitionsPageURL = env('CHD_HOST').'/test/page1.html';
     }
 
