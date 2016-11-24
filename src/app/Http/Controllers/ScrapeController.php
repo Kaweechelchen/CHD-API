@@ -52,4 +52,8 @@ class ScrapeController extends Controller
             ['status' => $status]
         )->id;
     }
+
+    protected function authors($authorString)
+    {
+    }
 }
