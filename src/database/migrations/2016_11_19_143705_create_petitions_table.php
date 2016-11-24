@@ -12,8 +12,8 @@ class CreatePetitionsTable extends Migration
     public function up()
     {
         Schema::create('petitions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('number')->unsigned()->unique()->index();
+            $table->integer('id')->unsigned()->unique()->index();
+            $table->integer('number');
             $table->string('name');
             $table->string('description');
             $table->integer('paper_signatures');
