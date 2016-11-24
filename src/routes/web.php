@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('petitions', 'PetitionsController@index');
+Route::get('scrape', 'ScrapeController@index');

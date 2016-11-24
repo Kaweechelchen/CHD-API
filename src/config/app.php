@@ -176,6 +176,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\RequestServiceProvider::class,
+        App\Providers\PetitionServiceProvider::class,
         App\Providers\PathServiceProvider::class,
         App\Providers\PetitionsPageServiceProvider::class,
 
