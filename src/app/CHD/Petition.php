@@ -21,13 +21,32 @@ class Petition
 
         $petitionString = trim($petitionString);
 
-        $metaPattern = '/.*Auteur: <\/span> <span class="property_value">(?P<author>[^<]*)(.*électroniques: <\/span> <span class="property_value">(?P<signatures_electronic>\d+))?.*Dépôt: <\/span> <span class="property_value">(?P<submission>\d{2}-\d{2}-\d{4}).*(Signatures papier: <\/span> <span class="property_value">(?P<signatures_paper>\d+).*)?<span class="property_value">(?P<status>[^<]*).*<span class="subject_header">(?P<name>[^<]*)<\/span> -(?P<description>[^<]*).*<tbody>(?P<events_table>.*)<\/tbody>/';
+        //$metaPattern = '/.*Auteur: <\/span> <span class="property_value">(?P<author>[^<]*)(.*électroniques: <\/span> <span class="property_value">(?P<signatures_electronic>\d+))?.*Dépôt: <\/span> <span class="property_value">(?P<submission>\d{2}-\d{2}-\d{4}).*(Signatures papier: <\/span> <span class="property_value">(?P<signatures_paper>\d+).*)?<span class="property_value">(?P<status>[^<]*).*<span class="subject_header">(?P<name>[^<]*)<\/span> -(?P<description>[^<]*).*<tbody>(?P<events_table>.*)<\/tbody>/';
 
-        dd($petitionString);
+        $metaPattern = '/<span class="property_name">(?P<key>[^<]*)<\/span>(?:\ )?<span class="property_value">(?P<value>[^<]*)/';
 
-        if (!preg_match($metaPattern, $petitionString, $metaMatches)) {
+        if (!preg_match_all($metaPattern, $petitionString, $metaMatches)) {
             throw new Exception('metadata not matching');
+        } else {
+            foreach ($metaMatches['key'] as $key => $value) {
+                $value        = trim($value, ': ');
+                $meta[$value] = $metaMatches['value'][$key];
+            }
         }
+
+        //dd($metaMatches);
+
+        //dd($petitionString);
+
+        $eventsPattern = '/<tbody>(?P<eventTable>.*)<\/tbody>/';
+
+        if (!preg_match($eventsPattern, $petitionString, $eventTableMatch)) {
+            throw new Exception('events not matching');
+        } else {
+            $eventTable = $eventTableMatch['eventTable'];
+        }
+
+        dd($eventTable, $meta);
 
         $patterns = [
             'event' => '/<td[^>]*>(?P<date>.*?)<\/td> <td[^>]*>(?P<event>.*?)<\/td> <td[^>]*>(?P<link>.*?)<\/td>/',
@@ -42,3 +61,6 @@ class Petition
         ];
     }
 }
+
+/*.*Auteur: <\/span> <span class="property_value">(?P<author>[^<]*)(P:.*électroniques: <\/span> <span class="property_value">(?P<signatures_electronic>\d+))?.*Dépôt: <\/span> <span class="property_value">(?P<submission>\d{2}-\d{2}-\d{4}).*(Signatures papier: <\/span> <span class="property_value">(?P<signatures_paper>\d+).*)?<span class="property_value">(?P<status>[^<]*).*<span class="subject_header">(?P<name>[^<]*)<\/span> -(?P<description>[^<]*).*<tbody>(?P<events_table>.*)<\/tbody>
+*/
