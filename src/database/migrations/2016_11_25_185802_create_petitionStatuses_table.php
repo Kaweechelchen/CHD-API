@@ -4,14 +4,14 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePetitionStatusTable extends Migration
+class CreatePetitionStatusesTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up()
     {
-        Schema::create('petitionStatus', function (Blueprint $table) {
+        Schema::create('petition_statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('petition_id')->unsigned();
             $table->integer('status_id')->unsigned();
@@ -34,6 +34,6 @@ class CreatePetitionStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('petitionStatus');
+        Schema::dropIfExists('petition_statuses');
     }
 }
