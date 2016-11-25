@@ -21,7 +21,9 @@ class Petition
 
         $petitionString = trim($petitionString);
 
-        $metaPattern = '/.*Auteur: <\/span> <span class="property_value">(?P<author>[^<]*)(.*électroniques: <\/span> <span class="property_value">(?P<signatures_electronic>\d+))?.*Dépôt: <\/span> <span class="property_value">(?P<submission>[^<]*).*(Signatures papier: <\/span> <span class="property_value">(?P<signatures_paper>[^<]*).*)?<span class="property_value">(?P<status>[^<]*).*<span class="subject_header">(?P<name>[^<]*)<\/span> -(?P<description>[^<]*).*<tbody>(?P<events_table>.*)<\/tbody>/';
+        $metaPattern = '/.*Auteur: <\/span> <span class="property_value">(?P<author>[^<]*)(.*électroniques: <\/span> <span class="property_value">(?P<signatures_electronic>\d+))?.*Dépôt: <\/span> <span class="property_value">(?P<submission>\d{2}-\d{2}-\d{4}).*(Signatures papier: <\/span> <span class="property_value">(?P<signatures_paper>\d+).*)?<span class="property_value">(?P<status>[^<]*).*<span class="subject_header">(?P<name>[^<]*)<\/span> -(?P<description>[^<]*).*<tbody>(?P<events_table>.*)<\/tbody>/';
+
+        dd($petitionString);
 
         if (!preg_match($metaPattern, $petitionString, $metaMatches)) {
             throw new Exception('metadata not matching');
@@ -35,9 +37,8 @@ class Petition
             'name'                  => trim($metaMatches['name']),
             'description'           => trim($metaMatches['description']),
             'status'                => trim($metaMatches['status']),
-            'author'                => trim($metaMatches['author']),
-            'signatures_electronic' => trim($metaMatches['signatures_electronic']),
-            'signatures_paper'      => trim($metaMatches['signatures_paper']),
+            'signatures_electronic' => (int) trim($metaMatches['signatures_electronic']),
+            'signatures_paper'      => (int) trim($metaMatches['signatures_paper']),
         ];
     }
 }

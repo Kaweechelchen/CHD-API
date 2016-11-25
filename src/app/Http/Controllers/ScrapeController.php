@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
-use App\Statuses;
+use App\Authors;
 use App\Petitions;
+use App\Statuses;
 
 class ScrapeController extends Controller
 {
@@ -17,7 +18,7 @@ class ScrapeController extends Controller
         app('Path')->init();
         app('PetitionsPage')->init();
 
-        return app('Petition')->get(22);
+        //return app('Petition')->get(22);
 
         //return app('PetitionsPage')->get(2);
 
@@ -27,18 +28,28 @@ class ScrapeController extends Controller
 
         foreach ($petitionsOnPage as $key => $petition) {
             Log::info($petition['id']);
-            $petition['id'] = 22;
+            $petition['id'] = 797;
 
             $petition = array_merge(
                 $petition,
                 app('Petition')->get($petition['id'])
             );
 
-            Petitions::updateOrCreate(
+            $PetitionsId = Petitions::updateOrCreate(
                 ['id'        => $petition['id']],
-                ['status_id' => $this->statusId($petition['status'])],
-                ['number'    => 'hehe']
+                [
+                    'status_id'       => $this->statusId($petition['status']),
+                    'number'          => $petition['number'],
+                    'description'     => $petition['description'],
+                    'name'            => $petition['name'],
+                    'submission_date' => $petition['submission_date'],
+
+                ]
             );
+
+            return $petition;
+
+            $this->attachAuthors($petition['authors'], $petition['id']);
         }
 
         return $petitionsOnPage;
@@ -53,7 +64,15 @@ class ScrapeController extends Controller
         )->id;
     }
 
-    protected function authors($authorString)
+    protected function attachAuthors($authors, $petitionId)
     {
+        foreach ($authors as $author) {
+            Authors::updateOrCreate(
+                [
+                    'name'        => $author,
+                    'petition_id' => $petitionId,
+                ]
+            );
+        }
     }
 }

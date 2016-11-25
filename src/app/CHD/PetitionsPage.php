@@ -2,6 +2,8 @@
 
 namespace App\CHD;
 
+use Exception;
+
 class PetitionsPage
 {
     protected $petitionsPageURL;
@@ -57,9 +59,11 @@ class PetitionsPage
             if (env('APP_DEBUG') && $key > 0) {
                 //continue;
             }
-            $petition       = $this->handlePetitionMetaData($rawPetition['meta']);
-            $petition['id'] = $this->getId($rawPetition['info']);
-            $petitions[]    = $petition;
+            $petition           = $this->handlePetitionMetaData($rawPetition['meta']);
+            $idAndNumber        = $this->idAndNumber($rawPetition['info']);
+            $petition['id']     = $idAndNumber['id'];
+            $petition['number'] = $idAndNumber['number'];
+            $petitions[]        = $petition;
         }
 
         return $petitions;
@@ -74,19 +78,21 @@ class PetitionsPage
         }
 
         return [
-            'authors'    => explode(', ', $metaMatches['author']),
-            'submission' => strtotime($metaMatches['submission']),
-            'status'     => $metaMatches['status'],
+            'authors'         => explode(', ', $metaMatches['author']),
+            'submission_date' => date('Y-m-d H:i:s', strtotime($metaMatches['submission'])),
+            'status'          => $metaMatches['status'],
         ];
     }
 
-    protected function getId($data)
+    protected function idAndNumber($data)
     {
-        $patitionIDsPattern = '/action=doPetitionDetail&amp;id=(?P<id>\d*)">/';
-        if (!preg_match($patitionIDsPattern, $data, $patitionID)) {
-            throw new Exception('couldn\'t find patition ID');
+        $idAndNumberPattern = '/action=doPetitionDetail&amp;id=(?P<id>\d*)">(?: ?)Pétition (?:publique|ordinaire)(?: ?)(?P<number>\d+)/';
+        if (!preg_match($idAndNumberPattern, $data, $idAndNumber)) {
+            throw new Exception('couldn\'t find patition ID or Number');
         }
 
-        return $patitionID['id'];
+        $idAndNumber['number'] = (int) $idAndNumber['number'];
+
+        return $idAndNumber;
     }
 }
