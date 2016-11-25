@@ -17,7 +17,7 @@ class CreatePetitionsTable extends Migration
             $table->string('name')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
             $table->integer('paper_signatures')->nullable()->default(null);
-            $table->timestamp('submission_date');
+            $table->dateTime('submission_date');
             $table->integer('page_number')->unsigned();
             $table->integer('index_on_page')->unsigned();
             $table->timestamps();
