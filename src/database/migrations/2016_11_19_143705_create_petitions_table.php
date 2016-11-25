@@ -14,17 +14,13 @@ class CreatePetitionsTable extends Migration
         Schema::create('petitions', function (Blueprint $table) {
             $table->integer('id')->unsigned()->unique()->index();
             $table->integer('number');
-            $table->string('name');
-            $table->string('description');
-            $table->integer('paper_signatures');
+            $table->string('name')->nullable()->default(null);
+            $table->string('description')->nullable()->default(null);
+            $table->integer('paper_signatures')->nullable()->default(null);
             $table->timestamp('submission_date');
-            $table->integer('status_id')->unsigned();
+            $table->integer('page_number')->unsigned();
+            $table->integer('index_on_page')->unsigned();
             $table->timestamps();
-
-            $table->foreign('status_id')
-                ->references('id')
-                ->on('statuses')
-                ->onDelete('restrict');
         });
     }
 
