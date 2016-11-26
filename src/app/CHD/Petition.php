@@ -99,6 +99,14 @@ class Petition
                 $eventMatches[$key] = $this->br2nl($eventMatch);
             }
 
+            $linkInEventPattern = '/\/wps\/portal\/public\/(?:.*)petition_id=(?P<PetitionID>\d+)\/p=ePetition=PetitionDetail\/-\//';
+
+            if (preg_match($linkInEventPattern, $eventMatches['event'], $linkInEvent)) {
+                $newLink = '/wps/portal/public/PetitionDetail?action=doPetitionDetail&id='.$linkInEvent['PetitionID'];
+
+                $eventMatches['event'] = str_replace($linkInEvent[0], $newLink, $eventMatches['event']);
+            }
+
             $linkPattern = '/openWindow\(\'(?P<url>[^\']*)\'.*">(?P<name>[^<]*)/';
 
             if (preg_match($linkPattern, $eventMatches['url'], $linkMatches)) {
