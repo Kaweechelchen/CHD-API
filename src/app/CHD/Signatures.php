@@ -16,7 +16,7 @@ class Signatures
             )
         );
 
-        $signatures = false;
+        $signatures = [];
 
         $signaturePattern = '/<tr class="table_column_content">(?:\ )?(?P<signature>.*?)(?:\ )?<\/tr>/';
         if (preg_match_all($signaturePattern, $data, $signature)) {

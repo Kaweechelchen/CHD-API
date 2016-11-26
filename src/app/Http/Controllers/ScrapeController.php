@@ -14,16 +14,12 @@ class ScrapeController extends Controller
 {
     public function index()
     {
-        dd('hello wurld');
-
         app('Path')->init();
         app('PetitionsFromPage')->init();
         app('PetitionPages')->init();
 
         foreach (app('PetitionPages')->get() as $page) {
-            if ($page == 47) {
-                $this->handlePetitionPage($page);
-            }
+            $this->handlePetitionPage($page);
         }
         $this->attachEvents();
         $this->findSignatures();
@@ -34,32 +30,33 @@ class ScrapeController extends Controller
         $petitions = Petition::all();
 
         while ($petition = $petitions->pop()) {
-            if ($petition->id == 817) {
-                $lastScrapedPage = Signature::where('petition_id', $petition->id)
-                    ->orderBy('page_number', 'desc')
-                    ->first()
-                    ->page_number;
+            $lastScrapedPage = Signature::where('petition_id', $petition->id)
+                ->orderBy('page_number', 'desc')
+                ->first();
 
-                $signatures = app('Signatures')->get($petition->id, $lastScrapedPage);
+            if (!is_null($lastScrapedPage)) {
+                $lastScrapedPage = $lastScrapedPage->page_number;
+            }
 
-                foreach ($signatures as $signature) {
-                    Signature::updateOrCreate(
-                        [
-                            'petition_id'   => $petition->id,
-                            'page_number'   => $signature['page_number'],
-                            'index_on_page' => $signature['index_on_page'],
-                        ],
-                        [
-                            'petition_id'   => $petition->id,
-                            'lastname'      => $signature['lastname'],
-                            'firstname'     => $signature['firstname'],
-                            'city'          => $signature['city'],
-                            'postcode'      => $signature['postcode'],
-                            'page_number'   => $signature['page_number'],
-                            'index_on_page' => $signature['index_on_page'],
-                        ]
-                    );
-                }
+            $signatures = app('Signatures')->get($petition->id, $lastScrapedPage);
+
+            foreach ($signatures as $signature) {
+                Signature::updateOrCreate(
+                    [
+                        'petition_id'   => $petition->id,
+                        'page_number'   => $signature['page_number'],
+                        'index_on_page' => $signature['index_on_page'],
+                    ],
+                    [
+                        'petition_id'   => $petition->id,
+                        'lastname'      => $signature['lastname'],
+                        'firstname'     => $signature['firstname'],
+                        'city'          => $signature['city'],
+                        'postcode'      => $signature['postcode'],
+                        'page_number'   => $signature['page_number'],
+                        'index_on_page' => $signature['index_on_page'],
+                    ]
+                );
             }
         }
     }

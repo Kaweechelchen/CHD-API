@@ -15,6 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('scrape', 'ScrapeController@index');
+//Route::get('scrape', 'ScrapeController@index');
 Route::get('petitions', 'PetitionController@index');
 Route::get('petitions/{petition}', 'PetitionController@show');

@@ -19,9 +19,7 @@
                 @endforeach
             </div>
             <div class="col-sm-6">
-                @foreach($petition->signatures as $signature)
-                    {{ $signature }}
-                @endforeach
+                {{ count($petition->signatures) }}
             </div>
         </div>
     @endforeach
