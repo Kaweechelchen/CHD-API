@@ -10,6 +10,6 @@ class Status extends Model
 
     public function petitions()
     {
-        return $this->hasMany(PetitionStatuses::class);
+        return $this->hasMany(PetitionStatus::class);
     }
 }

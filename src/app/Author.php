@@ -10,6 +10,6 @@ class Author extends Model
 
     public function petition()
     {
-        return $this->belongsTo(Petitions::class,  'petition_id', 'id');
+        return $this->belongsTo(Petition::class);
     }
 }

@@ -10,21 +10,21 @@ class Petition extends Model
 
     public function authors()
     {
-        return $this->hasMany(Authors::class);
+        return $this->hasMany(Author::class);
     }
 
     public function signatures()
     {
-        return $this->hasMany(Signatures::class);
+        return $this->hasMany(Signature::class);
     }
 
     public function events()
     {
-        return $this->hasMany(Events::class);
+        return $this->hasMany(Event::class);
     }
 
     public function statuses()
     {
-        return $this->hasMany(PetitionStatuses::class);
+        return $this->hasMany(PetitionStatus::class);
     }
 }
