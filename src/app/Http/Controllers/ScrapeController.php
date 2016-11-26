@@ -8,11 +8,14 @@ use App\Status;
 use App\PetitionStatus;
 use App\Event;
 use App\Link;
+use App\Signature;
 
 class ScrapeController extends Controller
 {
     public function index()
     {
+        dd('hello wurld');
+
         app('Path')->init();
         app('PetitionsFromPage')->init();
         app('PetitionPages')->init();
@@ -20,6 +23,43 @@ class ScrapeController extends Controller
         foreach (app('PetitionPages')->get() as $page) {
             if ($page == 47) {
                 $this->handlePetitionPage($page);
+            }
+        }
+        $this->attachEvents();
+        $this->findSignatures();
+    }
+
+    protected function findSignatures()
+    {
+        $petitions = Petition::all();
+
+        while ($petition = $petitions->pop()) {
+            if ($petition->id == 817) {
+                $lastScrapedPage = Signature::where('petition_id', $petition->id)
+                    ->orderBy('page_number', 'desc')
+                    ->first()
+                    ->page_number;
+
+                $signatures = app('Signatures')->get($petition->id, $lastScrapedPage);
+
+                foreach ($signatures as $signature) {
+                    Signature::updateOrCreate(
+                        [
+                            'petition_id'   => $petition->id,
+                            'page_number'   => $signature['page_number'],
+                            'index_on_page' => $signature['index_on_page'],
+                        ],
+                        [
+                            'petition_id'   => $petition->id,
+                            'lastname'      => $signature['lastname'],
+                            'firstname'     => $signature['firstname'],
+                            'city'          => $signature['city'],
+                            'postcode'      => $signature['postcode'],
+                            'page_number'   => $signature['page_number'],
+                            'index_on_page' => $signature['index_on_page'],
+                        ]
+                    );
+                }
             }
         }
     }
@@ -46,7 +86,10 @@ class ScrapeController extends Controller
                 Petition::findOrFail($petition['id'])->id
             );
         }
+    }
 
+    protected function attachEvents()
+    {
         $petitions = Petition::all();
 
         while ($petition = $petitions->pop()) {
@@ -106,8 +149,6 @@ class ScrapeController extends Controller
                 }
             }
         }
-
-        return $petitionDetails;
     }
 
     protected function statusId($status)

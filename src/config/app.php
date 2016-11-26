@@ -180,6 +180,7 @@ return [
         App\Providers\PathServiceProvider::class,
         App\Providers\PetitionsFromPageServiceProvider::class,
         App\Providers\PetitionPagesServiceProvider::class,
+        App\Providers\SignaturesServiceProvider::class,
 
     ],
 
