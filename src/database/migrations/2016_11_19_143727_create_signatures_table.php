@@ -14,10 +14,10 @@ class CreateSignaturesTable extends Migration
         Schema::create('signatures', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('petition_id')->unsigned();
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->string('city');
-            $table->integer('postcode');
+            $table->string('firstname')->nullable()->default(null);
+            $table->string('lastname')->nullable()->default(null);
+            $table->string('city')->nullable()->default(null);
+            $table->integer('postcode')->nullable()->default(null);
             $table->integer('page_number');
             $table->integer('index_on_page');
             $table->timestamps();
