@@ -2,64 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
-use App\Authors;
-use App\Petitions;
-use App\Statuses;
+use App\Author;
+use App\Petition;
+use App\Status;
+use App\PetitionStatus;
 
 class ScrapeController extends Controller
 {
-    protected $cachedStatuses;
-
     public function index()
     {
-        //return app('Path')->get('test', 'bla');
-
         app('Path')->init();
         app('PetitionsPage')->init();
 
-        //return app('Petition')->get(22);
+        $page_number = 47;
 
-        //return app('PetitionsPage')->get(2);
+        $petitionsOnPage = app('PetitionsPage')->get($page_number);
 
-        $petitionsOnPage = app('PetitionsPage')->get(2);
-
-        //return $petitionsOnPage;
-
-        foreach ($petitionsOnPage as $key => $petition) {
-            Log::info($petition['id']);
-            $petition['id'] = 797;
-
-            $petition = array_merge(
-                $petition,
-                app('Petition')->get($petition['id'])
-            );
-
-            $PetitionsId = Petitions::updateOrCreate(
-                ['id'        => $petition['id']],
+        foreach ($petitionsOnPage as $index_on_page => $petition) {
+            Petition::updateOrCreate(
                 [
-                    'status_id'       => $this->statusId($petition['status']),
+                    'id' => $petition['id'],
+                ],
+                [
                     'number'          => $petition['number'],
-                    'description'     => $petition['description'],
-                    'name'            => $petition['name'],
                     'submission_date' => $petition['submission_date'],
-
+                    'page_number'     => $page_number,
+                    'index_on_page'   => $index_on_page,
                 ]
             );
 
-            return $petition;
-
-            $this->attachAuthors($petition['authors'], $petition['id']);
+            $this->attachAuthors(
+                $petition['authors'],
+                Petition::findOrFail($petition['id'])->id
+            );
         }
 
-        return $petitionsOnPage;
+        $petitions = Petition::all();
 
-        Log::info('hehe');
+        while ($petition = $petitions->pop()) {
+            $petitionDetails = app('Petition')->get($petition->id);
+            $this->attachStatus(
+                $petitionDetails['status'],
+                $petition->id
+            );
+            $petition->name             = $petitionDetails['name'];
+            $petition->description      = $petitionDetails['description'];
+            $petition->paper_signatures = $petitionDetails['paper_signatures'];
+            $petition->save();
+        }
+
+        return $petitionDetails;
     }
 
     protected function statusId($status)
     {
-        return Statuses::updateOrCreate(
+        return Status::updateOrCreate(
             ['status' => $status]
         )->id;
     }
@@ -67,10 +64,33 @@ class ScrapeController extends Controller
     protected function attachAuthors($authors, $petitionId)
     {
         foreach ($authors as $author) {
-            Authors::updateOrCreate(
+            Author::updateOrCreate(
                 [
                     'name'        => $author,
                     'petition_id' => $petitionId,
+                ]
+            );
+        }
+    }
+
+    protected function attachStatus($status, $petitionId)
+    {
+        Status::updateOrCreate(
+            ['status' => $status],
+            ['status' => $status]
+        );
+
+        $statusId = Status::where('status', $status)->firstOrFail()->id;
+
+        $lastPetitionStatus = PetitionStatus::where('petition_id', $petitionId)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if ($lastPetitionStatus == null || $lastPetitionStatus->status_id != $statusId) {
+            PetitionStatus::create(
+                [
+                    'petition_id' => $petitionId,
+                    'status_id'   => $statusId,
                 ]
             );
         }

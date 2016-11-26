@@ -14,9 +14,4 @@ class Request
 
         return trim(preg_replace('/\s+/', ' ', $data));
     }
-
-    public function getCHD($type, $arguments)
-    {
-        return app('Path')->get($type, $arguments);
-    }
 }

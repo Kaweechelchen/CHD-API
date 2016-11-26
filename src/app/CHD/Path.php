@@ -29,7 +29,7 @@ class Path
      */
     public function init()
     {
-        $data = app('Request')->get(env('CHD_HOST').'/test/page1.html1');
+        $data = app('Request')->get(env('CHD_HOST').env('CHD_LIST'));
 
         $urlPattern = '/action="(?P<path>[^#]*=(?P<type>.[^\/]*)\/-\/)/';
         if (!preg_match($urlPattern, $data, $url)) {

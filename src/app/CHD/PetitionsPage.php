@@ -10,7 +10,10 @@ class PetitionsPage
 
     public function init()
     {
-        $this->petitionsPageURL = env('CHD_HOST').'/test/page1.html';
+        $this->petitionsPageURL = app('Path')->get(
+            'listPetitionRole',
+            '?type=TOUTES&etat=TOUS&sousEtat=TOUS&sortDirection=ASC&sortField=dateDepot&pageNumber='
+        );
     }
 
     public function get($page)
@@ -28,7 +31,7 @@ class PetitionsPage
 
         $tablePattern = '/<tbody> <tr>(.*)<\/tr> <\/tbody>/';
         if (!preg_match($tablePattern, $petitionsString, $table)) {
-            echo 'Couldn\'t find petitions table';
+            throw new Exception('Couldn\'t find petitions table');
         }
 
         $table = trim($table[1]);
@@ -92,6 +95,7 @@ class PetitionsPage
         }
 
         $idAndNumber['number'] = (int) $idAndNumber['number'];
+        $idAndNumber['id']     = (int) $idAndNumber['id'];
 
         return $idAndNumber;
     }
