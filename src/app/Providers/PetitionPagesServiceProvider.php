@@ -3,9 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\CHD\PetitionsPage;
+use App\CHD\PetitionPages;
 
-class PetitionsPageServiceProvider extends ServiceProvider
+class PetitionPagesServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -19,8 +19,8 @@ class PetitionsPageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('PetitionsPage', function () {
-            return new PetitionsPage();
+        $this->app->singleton('PetitionPages', function () {
+            return new PetitionPages();
         });
     }
 }

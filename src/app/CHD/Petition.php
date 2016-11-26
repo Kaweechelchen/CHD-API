@@ -31,6 +31,7 @@ class Petition
             'description'      => $this->description(),
             'paper_signatures' => $this->paperSignatures(),
             'status'           => $this->status(),
+            'events'           => $this->events(),
         ];
     }
 
@@ -72,5 +73,57 @@ class Petition
         }
 
         return trim($status['status']);
+    }
+
+    protected function events()
+    {
+        $newEvents    = [];
+        $eventPattern = '/<td[^>]*>(?P<date>.*?)<\/td> <td[^>]*>(?P<event>.*?)<\/td> <td[^>]*>(?P<url>.*?)<\/td>/';
+
+        $events = explode('</tr> <tr', $this->petitionHTML);
+
+        foreach ($events as $key => $event) {
+            if ($key == 0) {
+                continue;
+            }
+
+            if (!preg_match($eventPattern, $event, $eventMatches)) {
+                throw new Exception('eventdata not matching');
+            }
+
+            foreach ($eventMatches as $key => $eventMatch) {
+                if ($key == 0) {
+                    continue;
+                }
+
+                $eventMatches[$key] = $this->br2nl($eventMatch);
+            }
+
+            $linkPattern = '/openWindow\(\'(?P<url>[^\']*)\'.*">(?P<name>[^<]*)/';
+
+            if (preg_match($linkPattern, $eventMatches['url'], $linkMatches)) {
+                $link[] = [
+                    'name' => $linkMatches['name'],
+                    'url'  => env('CHD_HOST').$linkMatches['url'],
+                ];
+            } else {
+                $link = [];
+            }
+
+            $event = [
+                'datetime' => date('Y-m-d H:i:s', strtotime($eventMatches['date'])),
+                'event'    => $this->br2nl($eventMatches['event']),
+                'links'    => $link,
+            ];
+
+            $newEvents[] = $event;
+        }
+
+        return $newEvents;
+    }
+
+    protected function br2nl($string)
+    {
+        return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
     }
 }

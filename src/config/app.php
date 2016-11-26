@@ -178,7 +178,8 @@ return [
         App\Providers\RequestServiceProvider::class,
         App\Providers\PetitionServiceProvider::class,
         App\Providers\PathServiceProvider::class,
-        App\Providers\PetitionsPageServiceProvider::class,
+        App\Providers\PetitionsFromPageServiceProvider::class,
+        App\Providers\PetitionPagesServiceProvider::class,
 
     ],
 

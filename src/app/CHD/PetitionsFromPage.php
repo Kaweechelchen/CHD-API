@@ -4,7 +4,7 @@ namespace App\CHD;
 
 use Exception;
 
-class PetitionsPage
+class PetitionsFromPage
 {
     protected $petitionsPageURL;
 

@@ -6,17 +6,27 @@ use App\Author;
 use App\Petition;
 use App\Status;
 use App\PetitionStatus;
+use App\Event;
+use App\Link;
 
 class ScrapeController extends Controller
 {
     public function index()
     {
         app('Path')->init();
-        app('PetitionsPage')->init();
+        app('PetitionsFromPage')->init();
+        app('PetitionPages')->init();
 
-        $page_number = 47;
+        foreach (app('PetitionPages')->get() as $page) {
+            if ($page == 47) {
+                $this->handlePetitionPage($page);
+            }
+        }
+    }
 
-        $petitionsOnPage = app('PetitionsPage')->get($page_number);
+    protected function handlePetitionPage($page)
+    {
+        $petitionsOnPage = app('PetitionsFromPage')->get($page);
 
         foreach ($petitionsOnPage as $index_on_page => $petition) {
             Petition::updateOrCreate(
@@ -26,7 +36,7 @@ class ScrapeController extends Controller
                 [
                     'number'          => $petition['number'],
                     'submission_date' => $petition['submission_date'],
-                    'page_number'     => $page_number,
+                    'page_number'     => $page,
                     'index_on_page'   => $index_on_page,
                 ]
             );
@@ -41,6 +51,7 @@ class ScrapeController extends Controller
 
         while ($petition = $petitions->pop()) {
             $petitionDetails = app('Petition')->get($petition->id);
+
             $this->attachStatus(
                 $petitionDetails['status'],
                 $petition->id
@@ -49,6 +60,51 @@ class ScrapeController extends Controller
             $petition->description      = $petitionDetails['description'];
             $petition->paper_signatures = $petitionDetails['paper_signatures'];
             $petition->save();
+
+            foreach ($petitionDetails['events'] as $event) {
+                Event::updateOrCreate(
+                    [
+                        'petition_id' => $petition->id,
+                        'datetime'    => $event['datetime'],
+                        'event'       => $event['event'],
+                    ],
+                    [
+                        'petition_id' => $petition->id,
+                        'datetime'    => $event['datetime'],
+                        'event'       => $event['event'],
+                    ]
+                );
+
+                $eventId = Event::where(
+                    [
+                        'petition_id' => $petition->id,
+                        'datetime'    => $event['datetime'],
+                        'event'       => $event['event'],
+                    ]
+                )->first();
+
+                if (is_null($eventId)) {
+                    dd(['petition_id' => $petition->id,
+                    'datetime'        => $event['datetime'],
+                    'name'            => $event['name'], ]);
+                }
+
+                $eventId = $eventId->id;
+
+                foreach ($event['links'] as $link) {
+                    Link::updateOrCreate(
+                        [
+                            'event_id'  => $eventId,
+                            'name'      => $link['name'],
+                        ],
+                        [
+                            'event_id'  => $eventId,
+                            'name'      => $link['name'],
+                            'url'       => $link['url'],
+                        ]
+                    );
+                }
+            }
         }
 
         return $petitionDetails;
