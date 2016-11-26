@@ -15,7 +15,7 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->integer('petition_id')->unsigned();
             $table->dateTime('datetime');
-            $table->string('name');
+            $table->longText('event');
             $table->timestamps();
 
             $table->foreign('petition_id')
