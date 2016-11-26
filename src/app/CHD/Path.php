@@ -44,5 +44,7 @@ class Path
         $this->path = env('CHD_HOST')
             .str_replace($url['type'], '%s', $url['path'])
             .'%s';
+
+        $this->path = 'http://chd.lu/wps/portal/public/!ut/p/b1/jctLDoIwFIXhtbiCnl5sgeFF6SNEgzYS6cQwIIaEx8S4fnEBRs7sJP8nomgTkCSlUoi7iHP3Hp7da1jmbvz-qB8E0zSGLBdWK7ANukprD8vpGrRrIL1i50EORmv42h1zXe2TysptnrIsXC2fyjy_FfA4yFBeCoKnbR4_xvjnQz-Ls1umXkxxNCbj3QdiCTZM/dl4/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_5T6UAKA71GR720A872MA2Q1GS5/ren/p=ePetition=%s/-/%s';
     }
 }
