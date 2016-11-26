@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Links extends Model
+class PetitionStatus extends Model
 {
     protected $guarded = [];
 }
