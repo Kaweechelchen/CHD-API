@@ -12,4 +12,9 @@ class Event extends Model
     {
         return $this->hasMany(Link::class);
     }
+
+    public function petition()
+    {
+        return $this->belongsTo(Petition::class);
+    }
 }
