@@ -2,6 +2,8 @@
 
 namespace App\CHD;
 
+use Exception;
+
 class Petition
 {
     protected $petitionHTML;

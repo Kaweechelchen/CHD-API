@@ -2,6 +2,8 @@
 
 namespace App\CHD;
 
+use Exception;
+
 class Signatures
 {
     public function get($petition, $page = 1, $init = true)
