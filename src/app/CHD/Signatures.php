@@ -47,12 +47,13 @@ class Signatures
         $signatures = [];
 
         foreach ($signaturesRaw as $index_on_page => $signature) {
-            $signatureMetaPattern  = '/(?:(?:<td[^>]*)>(?P<data>.[^<]*))<\/td>/';
-            if (!preg_match_all($signatureMetaPattern, $signature, $signatureMeta)) {
-                throw new Exception('couldn\'t find any signature data');
-            }
+            $data = [];
 
-            switch (count($signatureMeta['data'])) {
+            $columns = explode('</td> <td', $signature);
+
+            $signatureMetaPattern = '/(?:.*[^>])>(?P<value>.[^<]*)/';
+
+            switch (count($columns)) {
                 case 1:
                     $signatureMeta = [
                         'lastname'      => null,
@@ -64,11 +65,16 @@ class Signatures
                     ];
                     break;
                 case 4:
+                    foreach ($columns as $key => $column) {
+                        preg_match($signatureMetaPattern, $column, $signatureMeta);
+                        $data[$key] = $signatureMeta['value'];
+                    }
+
                     $signatureMeta = [
-                        'lastname'      => trim($signatureMeta['data'][0]),
-                        'firstname'     => trim($signatureMeta['data'][1]),
-                        'city'          => trim($signatureMeta['data'][2]),
-                        'postcode'      => trim(strtolower($signatureMeta['data'][3]), 'l- '),
+                        'lastname'      => trim($data[0]),
+                        'firstname'     => trim($data[1]),
+                        'city'          => trim($data[2]),
+                        'postcode'      => trim(strtolower($data[3]), 'l- '),
                         'page_number'   => $page,
                         'index_on_page' => $index_on_page,
                     ];
