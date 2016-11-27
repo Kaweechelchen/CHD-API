@@ -74,7 +74,7 @@ class Signatures
                     ];
                     break;
                 default:
-                    throw new Exception('unknown amount of signature details');
+                    throw new Exception('unknown amount of signature details'.print_r($signatureMeta, true).print_r($signature, true));
 
             }
 
