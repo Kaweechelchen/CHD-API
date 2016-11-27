@@ -2,6 +2,8 @@
 
 namespace App\CHD;
 
+use Illuminate\Support\Facades\Log;
+
 class Request
 {
     protected $data;
@@ -12,11 +14,12 @@ class Request
             return $this->data[$url];
         }
 
-        //$this->app['log']->debug('getting page:', array('url' => $url));
-        //echo 'getting page:'.$url;
+        Log::info('request started for:  '.$url);
+
         $data = file_get_contents($url);
         //$this->app['log']->info('loaded page: ', array('url' => $url));
-        //echo 'loaded page: '.$url;
+
+        Log::info('request finished for: '.$url);
 
         $this->data[$url] = trim(preg_replace('/\s+/', ' ', $data));
 
