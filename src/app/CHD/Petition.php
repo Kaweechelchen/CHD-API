@@ -13,7 +13,6 @@ class Petition
     {
         $this->id = $id;
         $data     = app('Request')->get(env('CHD_HOST').env('CHD_PETITION_URL').$id);
-        //$data = app('Request')->get('http://localhost/test/pet_816.html797');
 
         $startString = '<div id="PRINT_EPETITION_DETAIL">';
 
