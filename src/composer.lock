@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3727d6258ea164845f5bd543b849cc2e",
-    "content-hash": "7a83f5b37aa9514bf7fe24a8d5e8619a",
+    "hash": "0e55e0d3644764236e7a2578659d4bb7",
+    "content-hash": "f3576caa1c285368936a06922db5f29c",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2222,6 +2222,57 @@
             "time": "2016-11-03 08:04:31"
         },
         {
+            "name": "twbs/bootstrap",
+            "version": "v4.0.0-alpha.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap.git",
+                "reference": "b5890e0608ad2262cde4a38e90afa19f1cb5d852"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/b5890e0608ad2262cde4a38e90afa19f1cb5d852",
+                "reference": "b5890e0608ad2262cde4a38e90afa19f1cb5d852",
+                "shasum": ""
+            },
+            "replace": {
+                "twitter/bootstrap": "self.version"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Thornton",
+                    "email": "jacobthornton@gmail.com"
+                },
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+            "homepage": "https://getbootstrap.com",
+            "keywords": [
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "mobile-first",
+                "responsive",
+                "sass",
+                "web"
+            ],
+            "time": "2016-10-19 15:30:27"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v2.4.0",
             "source": {
@@ -3891,7 +3942,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "twbs/bootstrap": 15
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
