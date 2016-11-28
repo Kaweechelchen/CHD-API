@@ -49,8 +49,6 @@ class ScrapeController extends Controller
                     ],
                     [
                         'petition_id'   => $petition->id,
-                        'lastname'      => $signature['lastname'],
-                        'firstname'     => $signature['firstname'],
                         'city'          => $signature['city'],
                         'postcode'      => $signature['postcode'],
                         'page_number'   => $signature['page_number'],

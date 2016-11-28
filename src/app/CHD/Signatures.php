@@ -56,8 +56,6 @@ class Signatures
             switch (count($columns)) {
                 case 1:
                     $signatureMeta = [
-                        'lastname'      => null,
-                        'firstname'     => null,
                         'city'          => null,
                         'postcode'      => null,
                         'page_number'   => $page,
@@ -71,8 +69,6 @@ class Signatures
                     }
 
                     $signatureMeta = [
-                        'lastname'      => trim($data[0]),
-                        'firstname'     => trim($data[1]),
                         'city'          => trim($data[2]),
                         'postcode'      => trim(strtolower($data[3]), 'l- '),
                         'page_number'   => $page,
