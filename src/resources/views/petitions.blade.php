@@ -5,7 +5,7 @@
 
         <div class="row well">
             <div class="col-xs-2">
-                <h1>{{ $petition->number }}</h1>
+                <h1><a href="/petitions/{{ $petition->number }}">{{ $petition->number }}</a></h1>
                 {{ $status->find($petition->statuses()->orderBy('created_at', 'desc')->first()->status_id)->status }}
             </div>
             <div class="col-xs-8">

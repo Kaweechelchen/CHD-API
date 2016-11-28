@@ -12,7 +12,7 @@ class PetitionController extends Controller
     {
         //$petitions = Petition::all();
         $petitions = Petition::orderBy('submission_date', 'desc')
-            ->limit(3)
+            ->limit(20)
             ->offset(19)
             ->get();
 
@@ -40,8 +40,13 @@ class PetitionController extends Controller
         return view('petitions', compact('petitions', 'status'));
     }
 
-    public function show(Petition $petition)
+    //public function show(Petition $petition)
+    public function show($petition)
     {
-        return $petition;
+        $status    = Status::all();
+
+        $petition = Petition::where('number', $petition)->first();
+
+        return view('petition', compact('petition', 'status'));
     }
 }
