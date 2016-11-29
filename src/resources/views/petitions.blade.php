@@ -46,6 +46,71 @@
             </div>
         </div>--}}
     @endforeach
+
+    <div class="card-columns">
+
+    @foreach ($petitions as $key => $petition)
+
+        @if ($key % 3 == 0)
+
+
+            <div class="card">
+                <div class="card-img-top graph-bg">
+                    <canvas class="smallGraph" data-data="[10,200,700,2800,3000,3030,3050]"></canvas>
+                </div>
+                <div class="card-img-overlay card-inverse">
+                    <h4 class="card-title">{{$petition['number']}}</h4>
+                </div>
+                <div class="card-block">
+                    <p class="card-text">{{$petition['description']}}</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+
+        @endif
+
+    @endforeach
+
+    @foreach ($petitions as $key => $petition)
+
+        @if ($key % 3 == 1)
+
+            <div class="card card-block card-inverse card-primary text-xs-center">
+                <blockquote class="card-blockquote">
+                    <h4 class="card-title">{{$key}}</h4>
+                    {{$petition['number']}}
+                </blockquote>
+            </div>
+
+        @endif
+
+    @endforeach
+
+    @foreach ($petitions as $key => $petition)
+
+        @if ($key % 3 == 2)
+
+            <div class="card card-block card-inverse card-primary text-xs-center">
+                <blockquote class="card-blockquote">
+                    <h4 class="card-title">{{$key}}</h4>
+                    {{$petition['number']}}
+                </blockquote>
+            </div>
+
+        @endif
+
+    @endforeach
+
+    </div>
+
+    <div style="width: 200px">
+        <canvas class="smallGraph" data-data="[10,20,30]"></canvas>
+        <canvas class="smallGraph" data-data="[10,200,300]"></canvas>
+        <canvas class="smallGraph" data-data="[10,2000,3000]"></canvas>
+    </div>
+
+    {{--
+
     <div class="card-columns">
         <div class="card card-block card-inverse card-primary text-xs-center">
             <blockquote class="card-blockquote">
@@ -143,5 +208,5 @@
                 </footer>
             </blockquote>
         </div>
-    </div>
+    </div>--}}
 @stop
