@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Chart.js demo</title>
+        <!-- import plugin script -->
+        <script src='/js/Chart.min.js'></script>
+    </head>
+    <body>
+        <!-- line chart canvas element -->
+        <canvas id="buyers" width="600" height="400"></canvas>
+        <script>
+            // line chart data
+            var buyerData = {
+                labels : ["January","February","March","April","May","June"],
+                datasets : [
+                    {
+                        fillColor : "rgba(172,194,132,1)",
+                        data : [203,156,99,251,305,247],
+                        radius: 0
+                    }
+                ]
+            }
+            // get line chart canvas
+            var buyers = document.getElementById('buyers').getContext('2d');
+            // draw line chart
+            new Chart(buyers).Line(buyerData);
+        </script>
+    </body>
+</html>
