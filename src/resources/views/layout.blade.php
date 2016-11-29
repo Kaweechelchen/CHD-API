@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <title>MONA :)</title>
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
     </head>
 
     <body>
