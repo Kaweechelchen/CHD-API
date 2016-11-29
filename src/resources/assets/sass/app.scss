@@ -8,7 +8,54 @@
 // Bootstrap
 @import "node_modules/bootstrap/scss/bootstrap";
 
-.graph-bg {
-    //opacity: 0.5;
-    background-color: rgba(66,66,66 ,1);
+$base-color: rgba(0,0,0,1);
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+p {
+    margin: 0;
+}
+
+.container {
+    min-width: 1020px;
+}
+
+.border-bottom {
+    border-bottom: 1px #e5e5e5 solid;
+}
+
+.noPadding {
+    padding: 0;
+}
+
+.grayOut {
+    color: lighten( $base-color, 40% )
+}
+
+ul.petitionsList > li {
+    list-style: none;
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+li.petition {
+    .name {
+        margin-bottom: 4px
+    }
+    .meta {
+        font-size: .875rem;
+        span {
+            padding-right: 1.14rem;
+        }
+    }
+    .graphContainer canvas {
+        max-height: 50px;
+    }
+}
+
+h3 {
+    font-size: 1.4rem;
 }

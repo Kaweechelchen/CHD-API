@@ -1,22 +1,29 @@
 require('./bootstrap');
 
+
+
 var createGraph = function(obj) {
     var data = $(obj).data('data');
+    var ctx = obj.getContext("2d");
+    var gradient = ctx.createLinearGradient(0, 0, 0, 100);
+        gradient.addColorStop(0, 'rgba(156,204,101 ,1)');
+        gradient.addColorStop(1, 'rgba(220,237,200 ,0.5)');
+
     new Chart(
-        obj.getContext("2d"),
+        ctx,
         {
             type: 'line',
             data: {
                 labels: data,
                 datasets: [{
-                    backgroundColor: 'rgba(176,190,197 ,0)',
                     pointRadius: 0,
-                    borderColor: 'rgba(255,255,255,0.5)',
+                    borderColor: gradient,
                     data: data,
-                    fill: true
+                    fill: false
                 }]
             },
             options: {
+                animation : false,
                 responsive: true,
                 legend: {
                     display: false
@@ -37,6 +44,7 @@ var createGraph = function(obj) {
                     }],
                     yAxes: [{
                         gridLines: {
+                            display: false,
                             drawBorder: false
                         },
                         scaleLabel: {

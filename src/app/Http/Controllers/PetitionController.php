@@ -11,9 +11,8 @@ class PetitionController extends Controller
     public function index()
     {
         //$petitions = Petition::all();
-        $petitions = Petition::orderBy('submission_date', 'desc')
+        $petitions = Petition::orderBy('number', 'desc')
             ->limit(20)
-            ->offset(19)
             ->get();
 
         /*DB::listen(function ($query) {
