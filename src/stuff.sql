@@ -18,8 +18,9 @@ LIMIT 10
 
 -- GET the latest status for all petitions
 SELECT
-    ps.*,
-    s.status
+    p.*,
+    s.status,
+    ps.created_at AS status_update
 FROM
     petition_statuses ps
     INNER JOIN (
@@ -41,6 +42,8 @@ FROM
 
     INNER JOIN statuses s
         ON s.id = ps.status_id
+    INNER JOIN petitions p
+        ON p.id = ps.petition_id
 ;
 
 -- all signatures from the last 7 days
