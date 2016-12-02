@@ -81,7 +81,7 @@ class PetitionsFromPage
         }
 
         return [
-            'authors'         => explode(', ', $metaMatches['author']),
+            'authors'         => $metaMatches['author'],
             'submission_date' => date('Y-m-d H:i:s', strtotime($metaMatches['submission'])),
             'status'          => $metaMatches['status'],
         ];

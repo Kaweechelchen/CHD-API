@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Author;
 use App\Petition;
 use App\Status;
 use App\PetitionStatus;
@@ -73,12 +72,8 @@ class ScrapeController extends Controller
                     'submission_date' => $petition['submission_date'],
                     'page_number'     => $page,
                     'index_on_page'   => $index_on_page,
+                    'authors'         => $petition['authors'],
                 ]
-            );
-
-            $this->attachAuthors(
-                $petition['authors'],
-                Petition::findOrFail($petition['id'])->id
             );
         }
     }
@@ -151,18 +146,6 @@ class ScrapeController extends Controller
         return Status::updateOrCreate(
             ['status' => $status]
         )->id;
-    }
-
-    protected function attachAuthors($authors, $petitionId)
-    {
-        foreach ($authors as $author) {
-            Author::updateOrCreate(
-                [
-                    'name'        => $author,
-                    'petition_id' => $petitionId,
-                ]
-            );
-        }
     }
 
     protected function attachStatus($status, $petitionId)
