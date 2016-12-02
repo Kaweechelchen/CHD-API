@@ -11,6 +11,10 @@ class PetitionController extends Controller
 {
     public function index()
     {
+        app('Stats')->init();
+
+        dd(app('Stats')->days());
+
         //$petitions = Petition::all();
         /*$petitions = Petition::orderBy('number', 'desc')
             ->limit(20)

@@ -181,6 +181,7 @@ return [
         App\Providers\PetitionsFromPageServiceProvider::class,
         App\Providers\PetitionPagesServiceProvider::class,
         App\Providers\SignaturesServiceProvider::class,
+        App\Providers\StatsServiceProvider::class,
 
     ],
 
