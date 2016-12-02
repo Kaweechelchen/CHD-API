@@ -30,9 +30,7 @@
             <div class="row">
                 <div class="grayOut meta">
                     <span class="authors">
-                        @foreach ($petition->authors as $author)
-                            {{ $author->name }}
-                        @endforeach
+                        {{--{{ $petition->authors }}--}}
                     </span>
                     <span class="time">
                         Updated <relative-time datetime="2016-11-28T18:51:43Z" title="28 Nov 2016, 19:51 CET">a day ago</relative-time>

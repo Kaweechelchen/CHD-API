@@ -48,7 +48,7 @@ FROM
 
 -- all signatures from the last 7 days
 SELECT
-    *
+    COUNT(*) AS
 
 FROM
     signatures
@@ -67,6 +67,7 @@ FROM
 WHERE
     created_at >= (DATE_SUB(NOW(), INTERVAL 1 DAY))
 ;
+
 
 -- GET Last 10 signatures and group them by petition_id
 SELECT

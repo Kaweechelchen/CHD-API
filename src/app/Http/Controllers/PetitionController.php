@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Petition;
 use App\Status;
+use App\Signature;
 use Illuminate\Support\Facades\DB;
 
 class PetitionController extends Controller
@@ -11,32 +12,55 @@ class PetitionController extends Controller
     public function index()
     {
         //$petitions = Petition::all();
-        $petitions = Petition::orderBy('number', 'desc')
+        /*$petitions = Petition::orderBy('number', 'desc')
             ->limit(20)
-            ->get();
+            ->get();*/
 
-        /*DB::listen(function ($query) {
-            dd($query->sql, $query->bindings, $query->time);
-        });*/
+        $count = Signature::whereBetween(
+            'created_at', [
+                date('Y-m-d H:i:s', strtotime('-4 days')),
+                date('Y-m-d H:i:s'),
+            ]
+        )->count();
 
-        /*$petitions = Petition::join('petition_statuses', 'petitions.id', '=', 'petition_statuses.petition_id')
-                             ->join('statuses',          'statuses.id',  '=', 'petition_statuses.status_id')
-                             ->selectRaw('petitions.id, MAX(petition_statuses.created_at)')
-                             //->latest('statuses.created_at')
-                             //->havingRaw('MAX(petition_statuses.created_at) = petition_statuses.created_at')
-                             //->latest('petition_statuses.created_at')
-                             //->groupBy('petitions.id')
-                             //->orderBy('petitions.created_at', 'desc')
-                             //->where('petitions.id', 29)
-                             ->limit(3)
-                             //->offset(16)
-                             ->get();*/
+        dd($count);
 
-        //return $petitions;
+        $petitions = DB::select(
+            'SELECT
+                petitions.*,
+                statuses.status,
+                ps.created_at AS status_update
+            FROM
+                petition_statuses ps
+                INNER JOIN (
+                    SELECT
+                        petition_id,
+                        MAX(created_at) AS created_at
 
-        $status    = Status::all();
+                    FROM
+                        petition_statuses
 
-        return view('petitions', compact('petitions', 'status'));
+                    GROUP BY
+                        petition_id
+                ) AS max
+
+                USING (
+                    petition_id,
+                    created_at
+                )
+
+                INNER JOIN statuses
+                    ON ps.status_id = statuses.id
+                INNER JOIN petitions
+                    ON ps.petition_id = petitions.id
+
+            ORDER BY
+                petitions.number DESC
+
+            LIMIT 10'
+        );
+
+        return view('petitions', compact('petitions'));
     }
 
     //public function show(Petition $petition)
