@@ -22,6 +22,8 @@ class ScrapeController extends Controller
         }
         $this->attachEvents();
         $this->findSignatures();
+
+        app('Stats')->init();
     }
 
     protected function findSignatures()

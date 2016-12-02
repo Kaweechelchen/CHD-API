@@ -17,7 +17,7 @@
 
             <div class="row">
                 <div class="details">
-                    <div class="col-md-9 grayOut description noPadding">
+                    <div class="col-md-9 grayOut noPadding description">
                         {{ $petition->description }}
                     </div>
 
@@ -30,10 +30,14 @@
             <div class="row">
                 <div class="grayOut meta">
                     <span class="authors">
-                        {{--{{ $petition->authors }}--}}
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        {{ $petition->authors }}
                     </span>
-                    <span class="time">
-                        Updated <relative-time datetime="2016-11-28T18:51:43Z" title="28 Nov 2016, 19:51 CET">a day ago</relative-time>
+                    <span class="status">
+                        <i class="fa fa-certificate" aria-hidden="true"></i>
+                        {{ $petition->status }}
+                        &middot;
+                        Updated <relative-time datetime="2016-11-28T18:51:43Z" title="28 Nov 2016, 19:51 CET">{{ $petition->status_updated_at }}</relative-time>
                     </span>
                 </div>
             </div>

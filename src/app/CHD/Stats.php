@@ -68,17 +68,35 @@ class Stats
 
     public function days()
     {
-        return SignatureStats::where('unit', 'day')
+        $dayStats['total'] = 0;
+        $DBdayStats        = SignatureStats::where('unit', 'day')
             ->where('scope', 'global')
             ->orderBy('delta')
+            ->select('count')
             ->get();
+
+        foreach ($DBdayStats as $key => $dayStat) {
+            $dayStats['days'][] = $dayStat->count;
+            $dayStats['total'] += $dayStat->count;
+        }
+
+        return $dayStats;
     }
 
     public function hours()
     {
-        return SignatureStats::where('unit', 'hour')
+        $hourStats['total'] = 0;
+        $DBhourStats        = SignatureStats::where('unit', 'hour')
             ->where('scope', 'global')
             ->orderBy('delta')
+            ->select('count')
             ->get();
+
+        foreach ($DBhourStats as $key => $hourStat) {
+            $hourStats['days'][] = $hourStat->count;
+            $hourStats['total'] += $hourStat->count;
+        }
+
+        return $hourStats;
     }
 }
