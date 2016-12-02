@@ -11,9 +11,7 @@
                 <h3>
                     {{ $petition->description }} &middot;
                     <small>
-                        @foreach($petition->authors as $author)
-                            {{ $author->name }}
-                        @endforeach
+                        {{ $petition->authors }}
                     </small>
                 </h3>
             </div>
