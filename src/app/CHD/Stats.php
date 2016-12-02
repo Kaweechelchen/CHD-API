@@ -29,7 +29,9 @@ class Stats
                         date('Y-m-d H:i:s', strtotime('-'.($hour + $offsetHours + 1).' hours')),
                         date('Y-m-d H:i:s', strtotime('-'.($hour + $offsetHours).' hours')),
                     ]
-                )->count();
+                )
+                ->where('created_at', '>', env('FIRST_SCRAPE_END'))
+                ->count();
 
                 $dayCount += $count;
 
@@ -67,6 +69,15 @@ class Stats
     public function days()
     {
         return SignatureStats::where('unit', 'day')
+            ->where('scope', 'global')
+            ->orderBy('delta')
+            ->get();
+    }
+
+    public function hours()
+    {
+        return SignatureStats::where('unit', 'hour')
+            ->where('scope', 'global')
             ->orderBy('delta')
             ->get();
     }
