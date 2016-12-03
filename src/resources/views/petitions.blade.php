@@ -48,16 +48,20 @@
 
                 <div class="row">
                     <div class="grayOut meta">
-                        <span class="authors">
+                        <span class="authors" title="Auteur(s) de la petition: {{ $petition->authors }}">
                                 <i class="fa fa-users" aria-hidden="true"></i>
                                 {{ $petition->authors }}
-                            </span>
+                        </span>
+                        <span class="signatures" title="Nombre de signatures: {{ $petition->signature_count }}">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            {{ $petition->signature_count }}
+                        </span>
                         <span class="status">
-                                <i class="fa fa-certificate" aria-hidden="true"></i>
-                                {{ $petition->status }}
-                                &middot;
-                                <relative-time datetime="{{ $petition->status_updated_at }}" title="{{ date('j.m.Y H:i', strtotime($petition->status_updated_at)) }}">{{ date('j. M', strtotime($petition->status_updated_at)) }}</relative-time>
-                            </span>
+                            <i class="fa fa-certificate" aria-hidden="true"></i>
+                            {{ $petition->status }}
+                            &middot;
+                            <relative-time datetime="{{ $petition->status_updated_at }}" title="{{ date('j.m.Y H:i', strtotime($petition->status_updated_at)) }}">{{ date('j. M', strtotime($petition->status_updated_at)) }}</relative-time>
+                        </span>
                     </div>
                 </div>
             </li>
