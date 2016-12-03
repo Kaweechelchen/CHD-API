@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
 
         <nav class="navbar navbar-light bg-faded">
             <a class="navbar-brand" href="/">Petitions</a>
