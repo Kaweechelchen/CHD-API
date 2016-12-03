@@ -3,30 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Petition;
-use App\Status;
 use App\SignatureStats;
 
 class PetitionController extends Controller
 {
-    public function index()
+    public function index($page = 1)
     {
-        $petitions = Petition::includingStatus(20);
-        $petitions = Petition::withStatus(4, 200);
+        $offset = ((int) $page - 1) * env('ITEMS_PER_PAGE');
+
+        $petitions = Petition::includingStatus(env('ITEMS_PER_PAGE'), $offset);
+
+        $count = Petition::count();
 
         $weeklyStats = SignatureStats::where('scope', 'global')
             ->where('unit', 'hour')
             ->orderBy('delta', 'desc')
             ->get();
 
-        return view('petitions', compact('petitions', 'weeklyStats'));
+        return view('petitions', compact('petitions', 'weeklyStats', 'count', 'page'));
     }
 
     public function show($petition)
     {
-        $status    = Status::all();
-
         $petition = Petition::where('number', $petition)->first();
 
-        return view('petition', compact('petition', 'status'));
+        return view('petition', compact('', 'petition'));
     }
 }

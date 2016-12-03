@@ -15,6 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('scrape', 'ScrapeController@index');
-Route::get('petitions', 'PetitionController@index');
+Route::get('/', 'PetitionController@index');
+Route::get('/page/{page}', 'PetitionController@index')->where('page', '[0-9]+');
 Route::get('petitions/{petition}', 'PetitionController@show');
