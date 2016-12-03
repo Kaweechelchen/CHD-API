@@ -5,16 +5,22 @@ namespace App\Http\Controllers;
 use App\Petition;
 use App\Status;
 use App\Signature;
+use App\SignatureStats;
 
 class PetitionController extends Controller
 {
     public function index()
     {
+        //app('Stats')->init();
+
         //return app('Stats')->hours();
 
         //return app('Stats')->days();
 
-        $petitions = Petition::withStatus();
+        //return app('Stats')->petitionSignaturesByDay(807, 4);
+
+        $petitions = Petition::includingStatus(20);
+        $petitions = Petition::withStatus(4, 200);
 
         //$petitions = Petition::all();
         /*$petitions = Petition::orderBy('number', 'desc')
@@ -32,7 +38,12 @@ class PetitionController extends Controller
 
         //dd();
 
-        return view('petitions', compact('petitions'));
+        $weeklyStats = SignatureStats::where('scope', 'global')
+            ->where('unit', 'hour')
+            ->orderBy('delta', 'desc')
+            ->get();
+
+        return view('petitions', compact('petitions', 'weeklyStats'));
     }
 
     //public function show(Petition $petition)

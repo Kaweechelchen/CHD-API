@@ -2,8 +2,15 @@ require('./bootstrap');
 
 
 
-var createGraph = function(obj) {
+var createGraph = function(obj, pointRadius) {
     var data = $(obj).data('data');
+    var label = $(obj).data('labels');
+    if (typeof (label) === 'undefined') {
+        label = data;
+    }
+    if (typeof (pointRadius) === 'undefined') {
+        pointRadius = 0;
+    }
     var ctx = obj.getContext("2d");
     var gradient = ctx.createLinearGradient(0, 0, 0, 100);
         gradient.addColorStop(0, 'rgba(156,204,101 ,1)');
@@ -14,9 +21,10 @@ var createGraph = function(obj) {
         {
             type: 'line',
             data: {
-                labels: data,
+                labels: label,
                 datasets: [{
-                    pointRadius: 0,
+                    label: 'Signatures',
+                    pointRadius: pointRadius,
                     borderColor: gradient,
                     data: data,
                     fill: false
@@ -52,10 +60,13 @@ var createGraph = function(obj) {
                             labelString: 'Signatures'
                         },
                         ticks: {
-                            display: false,
-                            suggestedMax: 4000
+                            display: false
                         }
                     }]
+                },
+                tooltips: {
+                    intersect: false,
+                    mode: 'x'
                 }
             }
         }
@@ -63,6 +74,10 @@ var createGraph = function(obj) {
 
 }
 
-$('.smallGraph').each(function(i, obj) {
+$('.graph').each(function(i, obj) {
     createGraph(obj);
+});
+
+$('.smallGraph').each(function(i, obj) {
+    createGraph(obj, 3);
 });

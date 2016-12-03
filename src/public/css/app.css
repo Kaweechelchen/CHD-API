@@ -9694,10 +9694,6 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0;
 }
 
-.container {
-  min-width: 1020px;
-}
-
 .border-bottom {
   border-bottom: 1px #e5e5e5 solid;
 }
@@ -9726,10 +9722,6 @@ li.petition .meta {
 
 li.petition .meta span {
   padding-right: 1.14rem;
-}
-
-li.petition .graphContainer canvas {
-  max-height: 50px;
 }
 
 h3 {
