@@ -1,4 +1,4 @@
-<nav class="center" aria-label="Pages">
+<nav class="center hidden-lg-down" aria-label="Pages">
     <ul class="pagination">
         @if ($page <= 1)
             <li class="page-item disabled">

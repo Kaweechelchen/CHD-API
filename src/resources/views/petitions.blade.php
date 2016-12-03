@@ -3,72 +3,54 @@
 @section('content')
 
 @include('pagination')
+<ul class="petitionsList">
+    @foreach ($petitions as $key => $petition)
 
-<div class="col-md-3">
+        <li class="border-bottom petition" itemprop="owns" itemscope="" itemtype="http://schema.org/Code">
 
-    <div class="graphContainer noPadding">
-        <canvas class="graph" data-data="[
-                @foreach ($weeklyStats as $key => $weeklyStat)
-                    {{ $weeklyStat->count }} @if (!$loop->last) , @endif
-                @endforeach
-            ]" data-labels='[
-                @foreach ($weeklyStats as $key => $weeklyStat)
-                    "{{ date(' D, d.M H\h ', $weeklyStat->label) }}" @if (!$loop->last) , @endif
-                @endforeach
-            ]'></canvas>
-    </div>
-
-</div>
-
-<div class="col-md-9">
-    <ul class="petitionsList">
-        @foreach ($petitions as $key => $petition)
-
-            <li class="border-bottom petition" itemprop="owns" itemscope="" itemtype="http://schema.org/Code">
-
-                <div class="row">
-                    <div class="name">
-                        <h3>
-                            <a href="/petitions/{{ $petition->number }}" itemprop="name codeRepository">{{ $petition->name }}</a>
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="details">
-                        <div class="col-md-9 grayOut noPadding description">
-                            {{ $petition->description }}
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="name">
+                            <h3>
+                                <a href="/petitions/{{ $petition->number }}" itemprop="name codeRepository">{{ $petition->name }}</a>
+                            </h3>
                         </div>
-
-                        <div class="col-md-3 graphContainer noPadding">
-                            <canvas class="smallGraph" data-data="[10,200,700,2800,3000,3030,3050]"></canvas>
+                    </div>
+                    <div class="row">
+                        <div class="details">
+                            <div class="col-md-9 grayOut noPadding description">
+                                {{ $petition->description }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="grayOut meta">
+                            <span class="authors" title="Auteur(s) de la petition: {{ $petition->authors }}">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    {{ $petition->authors }}
+                            </span>
+                            <span class="signatures" title="Nombre de signatures: {{ $petition->signature_count }}">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                {{ $petition->signature_count }}
+                            </span>
+                            <span class="status">
+                                <i class="fa fa-certificate" aria-hidden="true"></i>
+                                {{ $petition->status }}
+                                &middot;
+                                <relative-time datetime="{{ $petition->status_updated_at }}" title="{{ date('j.m.Y H:i', strtotime($petition->status_updated_at)) }}">{{ date('j. M', strtotime($petition->status_updated_at)) }}</relative-time>
+                            </span>
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="grayOut meta">
-                        <span class="authors" title="Auteur(s) de la petition: {{ $petition->authors }}">
-                                <i class="fa fa-users" aria-hidden="true"></i>
-                                {{ $petition->authors }}
-                        </span>
-                        <span class="signatures" title="Nombre de signatures: {{ $petition->signature_count }}">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            {{ $petition->signature_count }}
-                        </span>
-                        <span class="status">
-                            <i class="fa fa-certificate" aria-hidden="true"></i>
-                            {{ $petition->status }}
-                            &middot;
-                            <relative-time datetime="{{ $petition->status_updated_at }}" title="{{ date('j.m.Y H:i', strtotime($petition->status_updated_at)) }}">{{ date('j. M', strtotime($petition->status_updated_at)) }}</relative-time>
-                        </span>
-                    </div>
+                <div class="col-md-3 graphContainer noPadding">
+                    <canvas class="smallGraph" data-data="[10,200,700,2800,3000,3030,3050]"></canvas>
                 </div>
-            </li>
+            </div>
+        </li>
 
-        @endforeach
-    </ul>
-</div>
+    @endforeach
+</ul>
 
 @include('pagination')
 

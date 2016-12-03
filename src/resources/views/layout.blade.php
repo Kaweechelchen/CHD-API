@@ -36,7 +36,27 @@
             </form>
         </nav>
 
-        @yield('content')
+        <div class="col-md-3">
+
+            <div class="graphContainer noPadding">
+                <canvas class="graph" data-data="[
+                        @foreach ($weeklyStats as $key => $weeklyStat)
+                            {{ $weeklyStat->count }} @if (!$loop->last) , @endif
+                        @endforeach
+                    ]" data-labels='[
+                        @foreach ($weeklyStats as $key => $weeklyStat)
+                            "{{ date(' D, d.M H\h ', $weeklyStat->label) }}" @if (!$loop->last) , @endif
+                        @endforeach
+                    ]'></canvas>
+            </div>
+
+            {{ $stats['day'] }}
+
+        </div>
+
+        <div class="col-md-9">
+            @yield('content')
+        </div>
     </div>
 
     <script src="{{ elixir('js/app.js') }}"></script>
