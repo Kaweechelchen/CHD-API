@@ -4,6 +4,7 @@ namespace App\CHD;
 
 use App\Signature;
 use App\SignatureStats;
+use Illuminate\Support\Facades\DB;
 
 class Stats
 {
@@ -46,6 +47,7 @@ class Stats
                         'unit'   => 'hour',
                         'delta'  => $hour + $offsetHours,
                         'count'  => $count,
+                        'label'  => strtotime('-'.($hour + $offsetHours + 1).' hours'),
                     ]
                 );
             }
@@ -98,5 +100,35 @@ class Stats
         }
 
         return $hourStats;
+    }
+
+    public function petitionSignaturesByDay($petitionId = null, $daysAgo = null)
+    {
+        $query = Signature::select(
+                DB::raw('ANY_VALUE(DATEDIFF(now(), created_at)) AS days_ago'),
+                DB::raw('ANY_VALUE(petition_id) AS petition_id'),
+                DB::raw('ANY_VALUE(COUNT(*)) AS count')
+            )
+            ->groupBy('days_ago')
+            ->groupBy('petition_id');
+
+        if ($petitionId !== null) {
+            $query = $query->where('petition_id', $petitionId);
+        }
+
+        if ($daysAgo !== null) {
+            $query = $query->whereRaw(
+                'DATEDIFF(now(), created_at) = ?',
+                [
+                    $daysAgo,
+                ]
+            );
+        }
+
+        if ($query->value('count') === null) {
+            return 0;
+        }
+
+        return $query->value('count');
     }
 }
