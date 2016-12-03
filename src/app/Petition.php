@@ -34,7 +34,7 @@ class Petition extends Model
         $limit  = ($limit === null) ? 10 : $limit;
         $offset = ($offset === null) ? 0 : $offset;
 
-        return DB::select(
+        $petitions = DB::select(
             'SELECT
                 petitions.*,
                 statuses.status,
@@ -72,6 +72,15 @@ class Petition extends Model
                 $offset,
             ]
         );
+
+        foreach ($petitions as &$petition) {
+            $signature_count = Signature::where('petition_id', $petition->id)
+                ->count();
+
+            $petition->signature_count = $signature_count;
+        }
+
+        return $petitions;
     }
 
     public static function withStatus($status, $limit = null, $offset = null)

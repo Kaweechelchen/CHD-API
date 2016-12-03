@@ -9,11 +9,9 @@ class PetitionController extends Controller
 {
     public function index($page = 1)
     {
-        $offset = ((int) $page - 1) * env('ITEMS_PER_PAGE');
-
+        $offset    = ((int) $page - 1) * env('ITEMS_PER_PAGE');
+        $count     = Petition::count();
         $petitions = Petition::includingStatus(env('ITEMS_PER_PAGE'), $offset);
-
-        $count = Petition::count();
 
         $weeklyStats = SignatureStats::where('scope', 'global')
             ->where('unit', 'hour')
@@ -23,7 +21,7 @@ class PetitionController extends Controller
         return view('petitions', compact('petitions', 'weeklyStats', 'count', 'page'));
     }
 
-    public function show($petition)
+    public function show(Petition $petition)
     {
         $petition = Petition::where('number', $petition)->first();
 
