@@ -25,6 +25,13 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
 }
 
+.clear {
+    clear: both;
+}
+.right {
+    text-align: right;
+}
+
 .container {
     //min-width: 1020px;
 }
@@ -68,4 +75,27 @@ li.petition {
 
 h3 {
     font-size: 1.4rem;
+}
+
+.stats {
+    display: block;
+
+    .daily {
+        font-size: 8rem;
+        margin-bottom: -0.3em;
+        text-align: center;
+    }
+
+    .weekly, .monthly {
+        font-size: 2rem;
+        margin-bottom: -0.3em;
+    }
+
+    .label {
+        font-size: 1rem;
+    }
+
+    .dailyContainer {
+        margin-bottom: -0.8rem;
+    }
 }

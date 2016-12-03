@@ -22,7 +22,7 @@
                     <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="supportedContentDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                     <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
@@ -40,17 +40,42 @@
 
             <div class="graphContainer noPadding">
                 <canvas class="graph" data-data="[
-                        @foreach ($weeklyStats as $key => $weeklyStat)
-                            {{ $weeklyStat->count }} @if (!$loop->last) , @endif
-                        @endforeach
-                    ]" data-labels='[
-                        @foreach ($weeklyStats as $key => $weeklyStat)
-                            "{{ date(' D, d.M H\h ', $weeklyStat->label) }}" @if (!$loop->last) , @endif
-                        @endforeach
-                    ]'></canvas>
+                    @foreach ($weeklyStats as $key => $weeklyStat)
+                        {{ $weeklyStat->count }} @if (!$loop->last) , @endif
+                    @endforeach
+                ]" data-labels='[
+                    @foreach ($weeklyStats as $key => $weeklyStat)
+                        "{{ date(' D, d.M H\h ', $weeklyStat->label) }}" @if (!$loop->last) , @endif
+                    @endforeach
+                ]'></canvas>
             </div>
 
-            {{ $stats['day'] }}
+            <div class="stats grayOut">
+                <div class="col-xs-12 dailyContainer">
+                    <div class="daily">
+                        {{ $stats['day'] }}
+                    </div>
+                    <p class="label right grayOut">/24 heures</p>
+                </div>
+                <div class="col-xs-6">
+                    <div class="weekly">
+                        {{ $stats['week'] }}
+                    </div>
+                    <p class="label grayOut">/semaine</p>
+                </div>
+                <div class="col-xs-6">
+                    <div class="monthly right">
+                        {{ $stats['month'] }}
+                    </div>
+                    <p class="label right grayOut">/mois</p>
+                </div>
+                <div class="col-xs-12">
+                    <div class="total">
+                        {{ $stats['total'] }}
+                    </div>
+                    <p class="label grayOut">Total</p>
+                </div>
+            </div>
 
         </div>
 
