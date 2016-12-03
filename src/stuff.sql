@@ -91,3 +91,70 @@ FROM (
 
 GROUP BY
     petition_id;
+
+
+
+
+    SELECT
+        petitions.number,
+        petition_statuses.status_id,
+        petition_statuses.created_at
+
+    FROM
+        petitions
+        INNER JOIN petition_statuses
+            ON petitions.id = petition_statuses.petition_id
+
+        WHERE
+            status_id = 4
+
+
+    SELECT
+        DATE(created_at) Date,
+        petition_id,
+        COUNT(*) totalCOunt
+
+    FROM
+        signatures
+
+    WHERE
+        petition_id = 807
+
+    GROUP BY
+        DATE(created_at),
+        petition_id
+    ;
+
+    SELECT
+        *
+
+    FROM (
+        SELECT
+            ANY_VALUE(DATEDIFF(now(), created_at)) AS days_ago,
+            ANY_VALUE(petition_id),
+            ANY_VALUE(COUNT(id)) AS num_texts
+
+        FROM
+            signatures
+
+        GROUP BY
+            DATE(created_at),
+            petition_id
+
+        ) AS temp
+    ;
+
+
+    SELECT
+        DATE_FORMAT(created_at, '%m/%d/%Y'),
+        COUNT(*)
+
+    FROM
+        signatures
+
+    WHERE
+        created_at BETWEEN NOW() - INTERVAL 30 DAY AND NOW()
+
+    GROUP BY
+        DATE_FORMAT(created_at, '%m/%d/%Y')
+    ;
