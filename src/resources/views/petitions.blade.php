@@ -13,7 +13,7 @@
                     <div class="row">
                         <div class="name">
                             <h3>
-                                <a href="/petitions/{{ $petition->number }}" itemprop="name codeRepository">{{ $petition->name }}</a>
+                                <a href="/{{ $petition->number }}" itemprop="name codeRepository">{{ $petition->name }}</a>
                             </h3>
                         </div>
                     </div>

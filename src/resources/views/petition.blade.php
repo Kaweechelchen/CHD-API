@@ -4,7 +4,7 @@
     <div class="row well">
         <div class="col-xs-2">
             <h1>{{ $petition->number }}</h1>
-            {{ $status->find($petition->statuses()->orderBy('created_at', 'desc')->first()->status_id)->status }}
+            {{ $petition->status }}
         </div>
         <div class="col-xs-8">
             <div class="row">
@@ -32,7 +32,7 @@
             @foreach($petition->events()->get() as $event)
                 <tr>
                     <td><nobr>{!! substr($event->datetime,0,10) !!}</nobr></td>
-                    <td>{!! $event->event !!}</td>
+                    <td>{!! nl2br($event->event) !!}</td>
                 </tr>
             @endforeach
         </tbody>
