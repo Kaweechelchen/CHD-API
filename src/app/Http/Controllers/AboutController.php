@@ -19,7 +19,7 @@ class AboutController extends Controller
                 'link' => 'https://twitter.com/Clawfire',
             ],
             [
-                'name' => 'Fränz',
+                'name' => 'Fränz 🦄',
                 'link' => 'https://twitter.com/ffraenz',
             ],
         ];

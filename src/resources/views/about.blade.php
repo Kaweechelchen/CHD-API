@@ -17,7 +17,7 @@
         <div class="col-md-8">
             Hello world =D<br />
 
-            Special thanks go to:
+            Special thanks to:
             <ul>
                 @foreach($peopleToThank as $person)
                     <li>
