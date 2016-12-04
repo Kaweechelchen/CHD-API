@@ -2,7 +2,7 @@
 
 namespace App\CHD;
 
-use App\Petition;
+use App\Petition as PetitionModel;
 use App\Signature;
 use App\SignatureStats;
 use Illuminate\Support\Facades\DB;
@@ -137,7 +137,7 @@ class Stats
 
     public function refreshPetitionStats()
     {
-        $petitions = Petition::select('id')->get();
+        $petitions = PetitionModel::select('id')->get();
 
         $daysToGoBack = 30;
 
