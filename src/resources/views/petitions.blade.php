@@ -13,7 +13,7 @@
             <li class="border-bottom petition" itemprop="owns" itemscope="" itemtype="http://schema.org/Code">
 
                 <div class="row">
-                    <div class="col-md-9">
+                    <div class="col-sm-9">
                         <div class="row">
                             <div class="col-xs-12 name">
                                 <h3>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 graphContainer">
+                    <div class="col-sm-3 graphContainer hidden-xs-down">
                         <canvas class="smallGraph" data-data="[{{ $petition->stats }}]"></canvas>
                     </div>
                 </div>

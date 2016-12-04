@@ -1,6 +1,8 @@
-<div class="col-md-3">
+<div class="col-md-3 hidden-sm-down">
 
-    <div class="graphContainer noPadding">
+    <h4 class="stats-header center">Signatures sur toutes les pétitions</h4>
+
+    <div class="graphContainer">
         <canvas class="graph" data-data="[
             @foreach ($weeklyStats as $key => $weeklyStat)
                 {{ $weeklyStat->count }} @if (!$loop->last) , @endif
@@ -25,18 +27,18 @@
             </div>
             <p class="label grayOut">/semaine</p>
         </div>
-        <div class="col-xs-6">
-            <div class="monthly right">
+        <div class="col-xs-6 right">
+            <div class="monthly">
                 {{ $stats['month'] }}
             </div>
-            <p class="label right grayOut">/mois</p>
+            <p class="label grayOut">/mois</p>
         </div>
-        <div class="col-xs-12">
+        {{--<div class="col-xs-6 offset-xs-6 right">
             <div class="total">
                 {{ $stats['total'] }}
             </div>
             <p class="label grayOut">Total</p>
-        </div>
+        </div>--}}
     </div>
 
 </div>
