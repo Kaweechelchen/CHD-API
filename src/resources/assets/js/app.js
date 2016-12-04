@@ -81,5 +81,5 @@ $('.graph').each(function(i, obj) {
 });
 
 $('.smallGraph').each(function(i, obj) {
-    createGraph(obj, 3);
+    createGraph(obj);
 });

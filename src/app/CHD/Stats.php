@@ -4,6 +4,7 @@ namespace App\CHD;
 
 use App\Signature;
 use App\SignatureStats;
+use App\Petition;
 use Illuminate\Support\Facades\DB;
 
 class Stats
@@ -13,6 +14,7 @@ class Stats
     public function init()
     {
         $this->global();
+        $this->refreshPetitionStats();
     }
 
     protected function global()
@@ -110,7 +112,8 @@ class Stats
                 DB::raw('ANY_VALUE(COUNT(*)) AS count')
             )
             ->groupBy('days_ago')
-            ->groupBy('petition_id');
+            ->groupBy('petition_id')
+            ->where('created_at', '>', env('FIRST_SCRAPE_END'));
 
         if ($petitionId !== null) {
             $query = $query->where('petition_id', $petitionId);
@@ -130,5 +133,36 @@ class Stats
         }
 
         return $query->value('count');
+    }
+
+    public function refreshPetitionStats()
+    {
+        $petitions = Petition::select('id')->get();
+
+        $daysToGoBack = 30;
+
+        while ($petition = $petitions->pop()) {
+            $compiled = [];
+            for ($day = $daysToGoBack; $day >= 0; --$day) {
+                $compiled[] = $this->petitionSignaturesByDay(
+                    $petition->id,
+                    $day
+                );
+            }
+
+            SignatureStats::updateOrCreate(
+                [
+                    'scope'  => 'petition',
+                    'unit'   => 'monthly',
+                    'label'  => $petition->id,
+                ],
+                [
+                    'scope'     => 'petition',
+                    'unit'      => 'monthly',
+                    'label'     => $petition->id,
+                    'compiled'  => implode(',', $compiled),
+                ]
+            );
+        }
     }
 }

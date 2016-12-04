@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 graphContainer noPadding">
-                        <canvas class="smallGraph" data-data="[10,200,700,2800,3000,3030,3050]"></canvas>
+                        <canvas class="smallGraph" data-data="[{{ $petition->stats }}]"></canvas>
                     </div>
                 </div>
             </li>

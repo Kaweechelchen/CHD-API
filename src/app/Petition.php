@@ -38,7 +38,8 @@ class Petition extends Model
             'SELECT
                 petitions.*,
                 statuses.status,
-                ps.created_at AS status_updated_at
+                ps.created_at AS status_updated_at,
+                signature_stats.compiled AS stats
             FROM
                 petition_statuses ps
                 INNER JOIN (
@@ -62,6 +63,9 @@ class Petition extends Model
                     ON ps.status_id = statuses.id
                 INNER JOIN petitions
                     ON ps.petition_id = petitions.id
+                INNER JOIN signature_stats
+                    ON ps.petition_id = signature_stats.label
+                    AND signature_stats.scope = "petition"
 
             ORDER BY
                 petitions.number DESC
