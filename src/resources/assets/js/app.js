@@ -44,7 +44,7 @@ var createGraph = function(obj, pointRadius) {
                         gridLines: {
                             display: false
                         },
-                        display: true,
+                        display: false,
                         scaleLabel: {
                             display: false,
                         },
