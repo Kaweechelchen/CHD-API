@@ -44,12 +44,34 @@ class PetitionController extends Controller
 
     public function show($petition)
     {
-        $petition = Petition::where('number', $petition)->first();
+        $petition       = Petition::where('number', $petition)->first();
+        $stats['daily'] = SignatureStats::where('scope', 'petition')
+            ->where('label', $petition->id)
+            ->value('compiled');
+
+        $stats['day']   = Signature::where('created_at', '>', date('Y-m-d H:i:s', strtotime('-1 day')))
+            ->where('created_at', '>', env('FIRST_SCRAPE_END'))
+            ->where('petition_id', $petition->id)
+            ->count();
+        $stats['week']  = Signature::where('created_at', '>', date('Y-m-d H:i:s', strtotime('-1 week')))
+            ->where('created_at', '>', env('FIRST_SCRAPE_END'))
+            ->where('petition_id', $petition->id)
+            ->count();
+        $stats['month'] = Signature::where('created_at', '>', date('Y-m-d H:i:s', strtotime('-1 month')))
+            ->where('created_at', '>', env('FIRST_SCRAPE_END'))
+            ->where('petition_id', $petition->id)
+            ->count();
+
+        $weeklyStats = SignatureStats::where('scope', 'global')
+            ->where('unit', 'hour')
+            ->orderBy('delta', 'desc')
+            ->get();
 
         return view(
             'petition',
             compact(
-                'petition'
+                'petition',
+                'stats'
             )
         );
     }

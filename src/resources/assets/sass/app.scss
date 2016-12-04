@@ -202,3 +202,16 @@ h3 {
 .stats-header {
     padding-bottom: 1em;
 }
+
+.petitionNumber {
+    font-size: 5rem;
+}
+
+@media (min-width: 768px) {
+
+    .petitionNumber {
+        font-size: 6.9vw;
+        margin-bottom: 1rem;
+    }
+
+}
