@@ -1,6 +1,8 @@
 require('./bootstrap');
 
-
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 
 var createGraph = function(obj, pointRadius) {
     var data = $(obj).data('data');
