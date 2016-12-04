@@ -2,6 +2,7 @@
 
 namespace App\CHD;
 
+use App\Petition;
 use App\Signature;
 use App\SignatureStats;
 use Illuminate\Support\Facades\DB;
