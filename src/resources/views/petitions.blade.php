@@ -15,21 +15,27 @@
                 <div class="row">
                     <div class="col-md-9">
                         <div class="row">
-                            <div class="name">
+                            <div class="col-xs-12 name">
                                 <h3>
                                     <a href="/{{ $petition->number }}" itemprop="name codeRepository">{{ $petition->name }}</a>
                                 </h3>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="details">
+                            <div class="col-xs-12 details">
                                 <div class="col-md-9 grayOut noPadding description">
                                     {{ $petition->description }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="grayOut meta">
+                            <div class="col-xs-12 grayOut meta">
+                                <span class="status">
+                                    <i class="fa fa-certificate" aria-hidden="true"></i>
+                                    {{ $petition->status }}
+                                    &middot;
+                                    <relative-time datetime="{{ $petition->status_updated_at }}" title="{{ date('j.m.Y H:i', strtotime($petition->status_updated_at)) }}">{{ date('j. M', strtotime($petition->status_updated_at)) }}</relative-time>
+                                </span>
                                 <span class="authors" title="Auteur(s) de la petition: {{ $petition->authors }}">
                                         <i class="fa fa-users" aria-hidden="true"></i>
                                         {{ $petition->authors }}
@@ -37,12 +43,6 @@
                                 <span class="signatures" title="Nombre de signatures: {{ $petition->signature_count }}">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     {{ $petition->signature_count }}
-                                </span>
-                                <span class="status">
-                                    <i class="fa fa-certificate" aria-hidden="true"></i>
-                                    {{ $petition->status }}
-                                    &middot;
-                                    <relative-time datetime="{{ $petition->status_updated_at }}" title="{{ date('j.m.Y H:i', strtotime($petition->status_updated_at)) }}">{{ date('j. M', strtotime($petition->status_updated_at)) }}</relative-time>
                                 </span>
                             </div>
                         </div>
