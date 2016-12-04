@@ -17,6 +17,11 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.navbar {
+    margin-bottom: 10px;
+}
+
 .noMargin {
     margin: 0;
 }
@@ -28,6 +33,7 @@ h1, h2, h3, h4, h5, h6 {
 .clear {
     clear: both;
 }
+
 .right {
     text-align: right;
 }
@@ -38,6 +44,74 @@ h1, h2, h3, h4, h5, h6 {
 
 .center {
     text-align: center;
+}
+
+ul {
+    padding: 0;
+}
+li {
+    list-style: none;
+}
+
+footer {
+    margin: 2em 0;
+    font-size: 1.5rem;
+}
+
+.red {
+    color: rgba(229,57,53 ,1);
+}
+
+@-webkit-keyframes pulsing {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+    5% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2)
+    }
+    10% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1)
+    }
+    15% {
+        -webkit-transform: scale(1.3);
+        transform: scale(1.3)
+    }
+    100%,
+    50% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+@keyframes pulsing {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+    5% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2)
+    }
+    10% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1)
+    }
+    15% {
+        -webkit-transform: scale(1.3);
+        transform: scale(1.3)
+    }
+    100%,
+    50% {
+        -webkit-transform: scale(1);
+        transform: scale(1)
+    }
+}
+
+.pulse {
+    -webkit-animation: pulsing 2.5s infinite;
+    animation: pulsing 2.5s infinite;
 }
 
 .border-bottom {
@@ -53,7 +127,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ul.petitionsList > li {
-    list-style: none;
     padding-top: 24px;
     padding-bottom: 24px;
 }
@@ -98,4 +171,19 @@ h3 {
     .dailyContainer {
         margin-bottom: -0.8rem;
     }
+}
+
+.greenBg {
+    background-color: #00f3a5;
+    color: rgba(0,0,0,.6);
+    footer {
+        color: #ffffff;
+        a, a:hover, a:link, a:active {
+            color: #ffffff;
+        }
+    }
+}
+
+.about {
+    //font-size: 2rem;
 }

@@ -18,3 +18,4 @@ Route::get('/', function () {
 Route::get('/', 'PetitionController@index');
 Route::get('/page/{page}', 'PetitionController@index')->where('page', '[0-9]+');
 Route::get('{petition}', 'PetitionController@show')->where('petition', '[0-9]+');
+Route::get('/about', 'AboutController@index');

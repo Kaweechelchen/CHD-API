@@ -19,4 +19,5 @@ elixir((mix) => {
         .version(['css/app.css', 'js/app.js']);
 
     mix.copy('node_modules/font-awesome/fonts', 'public/build/fonts');
+    mix.copy('resources/assets/img', 'public/build/img');
 });

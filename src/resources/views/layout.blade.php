@@ -6,38 +6,15 @@
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body class="@yield('bodyClass')">
+
+    @include('navigation')
+
     <div class="container-fluid">
-
-        <nav class="navbar navbar-light bg-faded">
-            <a class="navbar-brand" href="/">Petitions</a>
-            <ul class="nav navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="supportedContentDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
-            <form class="form-inline float-xs-right">
-                <input class="form-control" type="text" placeholder="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </nav>
-
         @yield('content')
     </div>
+
+    @include('footer')
 
     <script src="{{ elixir('js/app.js') }}"></script>
     <script>
