@@ -9,7 +9,7 @@
             <a class="nav-link" href="/about">About</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link">API (soon<sup><i class="fa fa-trademark" aria-hidden="true"></i></sup>)</a>
+            <a class="nav-link">API(soon<sup><i class="fa fa-trademark" aria-hidden="true"></i></sup>)</a>
         </li>
     </ul>
     <form class="form-inline float-xs-right">
