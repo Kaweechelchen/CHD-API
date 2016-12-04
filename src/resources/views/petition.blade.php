@@ -6,7 +6,9 @@
 
 @section('content')
 
-@include('statsSidebar')
+<div class="col-md-3">
+    Hellow
+</div>
 
 <div class="col-md-9">
 

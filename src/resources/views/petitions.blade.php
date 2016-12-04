@@ -23,7 +23,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 details">
-                                <div class="col-md-9 grayOut noPadding description">
+                                <div class="col-md-9 grayOut description">
                                     {{ $petition->description }}
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 graphContainer noPadding">
+                    <div class="col-md-3 graphContainer">
                         <canvas class="smallGraph" data-data="[{{ $petition->stats }}]"></canvas>
                     </div>
                 </div>
