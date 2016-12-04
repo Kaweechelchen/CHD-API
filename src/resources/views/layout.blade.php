@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="@yield('description', 'Pétitions publiques du Grand-duché de Luxembourg')">
+    <meta name="author" content="Tezza (https://twitter.com/FAQ)">
     <title>Petitions.lu @yield('title')</title>
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
 </head>

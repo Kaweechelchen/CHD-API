@@ -3,6 +3,9 @@
 @section('title')
 | {{ $petition->name }}
 @stop
+@section('description')
+{{ $petition->description }}
+@stop
 
 @section('content')
 
