@@ -1,6 +1,11 @@
 @extends('layout')
 
 @section('content')
+
+@include('statsSidebar')
+
+<div class="col-md-9">
+
     <div class="row well">
         <div class="col-xs-2">
             <h1>{{ $petition->number }}</h1>
@@ -37,4 +42,7 @@
             @endforeach
         </tbody>
     </table>
+
+</div>
+
 @stop
