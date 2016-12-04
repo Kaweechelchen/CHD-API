@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light bg-faded navbar-static-top">
     <div class="container">
-    <a class="navbar-brand" href="/">Mona Petitions</a>
+    <a class="navbar-brand" href="/">Petitions.lu</a>
     <ul class="nav navbar-nav">
         <li class="nav-item">
             <a class="nav-link" href="/">List</a>
