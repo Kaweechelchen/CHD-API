@@ -9,13 +9,15 @@
 
 @section('content')
     <div class="col-md-10 offset-md-1 about">
-        <div class="col-md-4 hidden-sm-down">
+        <div class="col-sm-4 hidden-xs-down">
             <img class="rounded img-fluid" title="Tezza 😘" src="/build/img/photo.jpg" />
             <i class="fa fa-hand-o-up" aria-hidden="true"></i> Current team<br />
             <i class="fa fa-twitter" aria-hidden="true"></i> <a href="https://twitter.com/FAQ" target="_blank">@FAQ</a><br />
         </div>
-        <div class="col-md-8">
+        <div class="col-sm-8">
             Hello world =D<br />
+
+
 
             Special thanks to:
             <ul>

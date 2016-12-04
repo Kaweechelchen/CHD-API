@@ -9,11 +9,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="/about">About</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item hidden-sm-down">
                 <a class="nav-link">API(soon<sup><i class="fa fa-trademark" aria-hidden="true"></i></sup>)</a>
             </li>
         </ul>
-        <form class="form-inline float-xs-right">
+        <form class="form-inline float-xs-right hidden-sm-down">
             <input class="form-control" disabled="disabled" type="text" placeholder='Search (soon™) 😋'>
             {{--<button class="btn btn-outline-success" type="submit">Search</button>--}}
         </form>
