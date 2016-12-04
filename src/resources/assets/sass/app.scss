@@ -11,6 +11,15 @@
 // Font-Awesome
 @import "node_modules/font-awesome/scss/font-awesome";
 
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 2rem;
+}
+
 $base-color: rgba(0,0,0,1);
 
 h1, h2, h3, h4, h5, h6 {
@@ -54,8 +63,10 @@ li {
 }
 
 footer {
-    margin: 2em 0;
     font-size: 1.5rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .red {
