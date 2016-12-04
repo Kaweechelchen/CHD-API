@@ -4,7 +4,6 @@ namespace App\CHD;
 
 use App\Signature;
 use App\SignatureStats;
-use App\Petition;
 use Illuminate\Support\Facades\DB;
 
 class Stats
