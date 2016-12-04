@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>MONA :)</title>
+    <title>Mona Petitions @yield('title')</title>
     <link href="{{ elixir('css/app.css') }}" rel="stylesheet">
 </head>
 

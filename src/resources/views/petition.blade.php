@@ -1,5 +1,9 @@
 @extends('layout')
 
+@section('title')
+| {{ $petition->name }}
+@stop
+
 @section('content')
 
 @include('statsSidebar')
