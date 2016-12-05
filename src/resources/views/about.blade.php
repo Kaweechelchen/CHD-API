@@ -21,7 +21,7 @@
                 The goal of this project is to make things easier for everybody.
             </p>
             <p>
-                By <strong>things</strong> I mean the accessibility to the public petition data or the grand duchy of Luxembourg. There's a lot of data out there that (I think) isn't being processed in an understandable way. A lot of information can be read from the amount of signatures a petition gets as well as when those signatures appear online. The graphs next to the petitions are just the beginning of what can be done with the data.
+                By <strong>things</strong> I mean the accessibility to the public petition data of the grand duchy of Luxembourg. There's a lot of data out there that (I think) isn't being processed in an understandable way. A lot of information can be read from the amount of signatures a petition gets as well as when those signatures appear online. The graphs next to the petitions are just the beginning of what can be done with the data.
             </p>
             <p>
                 By <strong>everybody</strong> I mean every creature that the data from those petitions could be of use to. The first goal is to make the life of journalists easier by providing easier access to status changes or graphs. Next on the list are developers. I can't wait to see what else can be done with this data which isn't that easy to scrape from chd.lu... Setting up the API shouldn't be too much of a hassle, but I had to prioritise things to get this thing out on December 5th 2016 (28 years after I was born *hint*).
