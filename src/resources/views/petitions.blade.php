@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="col-xs-12 name">
                                 <h3>
-                                    <a href="/{{ $petition->number }}" itemprop="name codeRepository">№ {{ $petition->number }}</a>
+                                    <a href="/{{ $petition->number }}" itemprop="name codeRepository">N° {{ $petition->number }}</a>
                                 </h3>
                             </div>
                         </div>

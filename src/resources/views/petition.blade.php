@@ -11,7 +11,7 @@
 
 <div class="col-md-3 graphContainer">
 
-    <h1 class="petitionNumber border-bottom">№ {{ $petition->number }}</h1>
+    <h1 class="petitionNumber border-bottom">N° {{ $petition->number }}</h1>
 
     <div class="hidden-sm-down">
         <h4 class="stats-header center">Signatures de cette pétition</h4>
