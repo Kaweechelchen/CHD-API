@@ -68,7 +68,7 @@ var createGraph = function(obj, pointRadius) {
                 },
                 tooltips: {
                     intersect: false,
-                    mode: 'x'
+                    mode: 'nearest'
                 }
             }
         }
