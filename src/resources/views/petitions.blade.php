@@ -23,7 +23,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 details">
-                                <div class="col-md-9 grayOut description">
+                                <div class="grayOut description">
                                     {{ $petition->description }}
                                 </div>
                             </div>

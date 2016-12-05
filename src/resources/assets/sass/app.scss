@@ -137,8 +137,7 @@ footer {
 }
 
 ul.petitionsList > li {
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding: 1.2rem 0;
 }
 
 li.petition {
@@ -200,6 +199,10 @@ h3 {
 
 .stats-header {
     padding-bottom: 1em;
+}
+
+.smallGraph {
+    max-height: 3.5rem;
 }
 
 .petitionNumber {
