@@ -12,7 +12,7 @@ class Petition
     public function get($id)
     {
         $this->id = $id;
-        $data     = app('Request')->get(env('CHD_HOST').env('CHD_PETITION_URL').$id);
+        $data     = app('Request')->get(str_replace('{{idPetition}}', $id, env('CHD_LINK_PETITION')));
 
         $startString = '<div id="PRINT_EPETITION_DETAIL">';
 

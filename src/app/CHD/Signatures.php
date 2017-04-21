@@ -11,12 +11,9 @@ class Signatures
         if (is_null($page)) {
             $page = 1;
         }
-        $data = app('Request')->get(
-            app('Path')->get(
-                'PetitionSignatureList/p=petition_id='.$petition,
-                '?sortDirection=ASC&pageNumber='.$page
-            )
-        );
+        $url = str_replace('{{idPetition}}', $petition, env('CHD_LINK_PETITIONS_SIGNATURES'));
+        $url = str_replace('{{pageNumber}}', $page, $url);
+        $data = app('Request')->get($url);
 
         $signatures = [];
 

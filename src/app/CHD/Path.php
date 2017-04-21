@@ -30,7 +30,6 @@ class Path
     public function init()
     {
         $data = app('Request')->get(env('CHD_HOST').env('CHD_LIST'));
-
         $data = substr(
             $data,
             strpos($data, '<!-- END petitionElementsList -->')
@@ -38,7 +37,7 @@ class Path
 
         $urlPattern = '/action="(?P<path>[^#]*=(?P<type>.[^\/]*)\/-\/)/';
         if (!preg_match($urlPattern, $data, $url)) {
-            throw new Exception('couldn\'t find the scrape Path');
+            throw new Exception('couldn\'t find the scrape Path from '.env('CHD_HOST').env('CHD_LIST'));
         }
 
         $this->path = env('CHD_HOST')

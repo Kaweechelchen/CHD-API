@@ -13,8 +13,6 @@ class ScrapeController extends Controller
 {
     public function index()
     {
-        app('Path')->init();
-        app('PetitionsFromPage')->init();
         app('PetitionPages')->init();
 
         foreach (app('PetitionPages')->get() as $page) {

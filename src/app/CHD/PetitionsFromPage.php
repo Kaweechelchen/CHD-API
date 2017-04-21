@@ -6,19 +6,9 @@ use Exception;
 
 class PetitionsFromPage
 {
-    protected $petitionsPageURL;
-
-    public function init()
-    {
-        $this->petitionsPageURL = app('Path')->get(
-            'listPetitionRole',
-            '?type=TOUTES&etat=TOUS&sousEtat=TOUS&sortDirection=ASC&sortField=dateDepot&pageNumber='
-        );
-    }
-
     public function get($page)
     {
-        $this->webPage = app('Request')->get($this->petitionsPageURL.$page);
+        $this->webPage = app('Request')->get(str_replace('{{pageNumber}}', $page, env('CHD_LINK_PETITIONS_LIST')));
 
         $startString     = '<!-- BEGIN petitionElementsList -->';
         $start           = strpos($this->webPage, $startString) + strlen($startString);
