@@ -28,7 +28,7 @@ class PetitionController extends Controller
 
         $offset         = ((int) $page - 1) * env('ITEMS_PER_PAGE');
         $count          = Petition::count();
-        $petitions      = Petition::includingStatus(env('ITEMS_PER_PAGE'), $offset);
+        $petitions      = Petition::includingStatusAndStats(env('ITEMS_PER_PAGE'), $offset);
 
         return view(
             'petitions',
@@ -40,6 +40,11 @@ class PetitionController extends Controller
                 'weeklyStats'
             )
         );
+    }
+
+    public function indexAPI()
+    {
+        return Petition::includingStatus(-1);
     }
 
     public function show($petition)
@@ -74,5 +79,10 @@ class PetitionController extends Controller
                 'stats'
             )
         );
+    }
+
+    public function showAPI($petition)
+    {
+        return Petition::where('number', $petition)->first();
     }
 }

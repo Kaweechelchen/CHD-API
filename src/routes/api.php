@@ -13,6 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::get('/', 'PetitionController@IndexAPI');
+Route::get('{petition}', 'PetitionController@showAPI')->where('petition', '[0-9]+');

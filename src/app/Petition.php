@@ -38,6 +38,60 @@ class Petition extends Model
             'SELECT
                 petitions.*,
                 statuses.status,
+                ps.created_at AS status_updated_at
+            FROM
+                petition_statuses ps
+                INNER JOIN (
+                    SELECT
+                        petition_id,
+                        MAX(created_at) AS created_at
+
+                    FROM
+                        petition_statuses
+
+                    GROUP BY
+                        petition_id
+                ) AS max
+
+                USING (
+                    petition_id,
+                    created_at
+                )
+
+                INNER JOIN statuses
+                    ON ps.status_id = statuses.id
+                INNER JOIN petitions
+                    ON ps.petition_id = petitions.id
+
+            ORDER BY
+                petitions.number DESC
+            LIMIT ?
+            OFFSET ?',
+            [
+                $limit,
+                $offset,
+            ]
+        );
+
+        foreach ($petitions as &$petition) {
+            $signature_count = Signature::where('petition_id', $petition->id)
+                ->count();
+
+            $petition->signature_count = $signature_count;
+        }
+
+        return $petitions;
+    }
+
+    public static function includingStatusAndStats($limit = null, $offset = null)
+    {
+        $limit  = ($limit === null) ? 10 : $limit;
+        $offset = ($offset === null) ? 0 : $offset;
+
+        $petitions = DB::select(
+            'SELECT
+                petitions.*,
+                statuses.status,
                 ps.created_at AS status_updated_at,
                 signature_stats.compiled AS stats
             FROM
