@@ -36,7 +36,7 @@
                 <p class="label grayOut">/semaine</p>
             </div>
         </div>
-        <a href="http://chd.lu/wps/portal/public/PetitionDetail?action=doPetitionDetail&id={{ $petition->id }}" target="_blank" class="btn btn-outline-info btn-sm" role="button" aria-disabled="true">Voir pétition sur chd.lu</a>
+        <a href="http://chd.lu/wps/portal/public/Accueil/TravailALaChambre/Petitions/RoleDesPetitions?action=doPetitionDetail&id={{ $petition->id }}" target="_blank" class="btn btn-outline-info btn-sm" role="button" aria-disabled="true">Voir pétition sur chd.lu</a>
     </div>
 
 </div>
