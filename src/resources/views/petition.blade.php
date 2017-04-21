@@ -60,7 +60,7 @@
                     <i class="fa fa-users" aria-hidden="true"></i>
                     {{ $petition->authors }}
             </span>
-            @if (count($petition->signature_count) > 1)
+            @if (count($petition->signatures) > 1)
                 <span class="signatures" data-toggle="tooltip" data-placement="bottom" title="Nombre de signatures: {{ count($petition->signatures) }}">
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     {{ count($petition->signatures) }}
