@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Petition;
 use App\Signature;
 use App\SignatureStats;
+use App\Status;
 
 class PetitionController extends Controller
 {
@@ -81,8 +82,47 @@ class PetitionController extends Controller
         );
     }
 
-    public function showAPI($petition)
+    public function showAPI($idPetition)
     {
-        return Petition::where('number', $petition)->first();
+        $petition = Petition::where('number', $idPetition)->first([
+            'id',
+            'number',
+            'name',
+            'description',
+            'authors',
+            'paper_signatures',
+            'submission_date',
+        ]);
+
+        $events = $petition->events()->get([
+            'id',
+            'datetime',
+            'event'
+        ]);
+
+        foreach ($events as $key => &$event) {
+            $event['links'] = $event->links()->get([
+                'id',
+                'name',
+                'url',
+            ]);
+        }
+
+        $petition['events'] = $events;
+
+        $statuses = $petition->statuses()->get([
+            'status_id',
+            'created_at',
+        ]);
+
+        foreach ($statuses as &$status) {
+            $status['status'] = Status::where('id', $status['status_id'])->first([
+                'status',
+            ])->status;
+        }
+
+        $petition['statuses'] = $statuses;
+
+        return $petition;
     }
 }
