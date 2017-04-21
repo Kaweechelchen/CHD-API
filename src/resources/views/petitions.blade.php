@@ -40,10 +40,12 @@
                                         <i class="fa fa-users" aria-hidden="true"></i>
                                         {{ $petition->authors }}
                                 </span>
-                                <span class="signatures" data-toggle="tooltip" data-placement="bottom" title="Nombre de signatures: {{ $petition->signature_count }}">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                    {{ $petition->signature_count }}
-                                </span>
+                                @if ($petition->signature_count > 1)
+                                    <span class="signatures" data-toggle="tooltip" data-placement="bottom" title="Nombre de signatures: {{ $petition->signature_count }}">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        {{ $petition->signature_count }}
+                                    </span>
+                                @endif
                             </div>
                         </div>
                     </div>
