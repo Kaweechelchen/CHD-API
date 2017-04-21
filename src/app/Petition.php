@@ -64,7 +64,7 @@ class Petition extends Model
                     ON ps.petition_id = petitions.id
 
             ORDER BY
-                petitions.number DESC
+                petitions.number ASC
             LIMIT ?
             OFFSET ?',
             [
